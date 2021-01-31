@@ -51,11 +51,12 @@ class ConfigMovil {
       110,
       graficos
     );
+    dibujarTexto("T1 : "+tiempo1,10,130,graficos);
+    dibujarTexto("T2 : "+tiempo2,10,155,graficos)
   }
   
   //================================================================================
   reportarCambioPantalla(num) {
-    console.log(num);
     let factor = Math.round(window.devicePixelRatio);
     
     let anchoCanvas = (screen.width * window.devicePixelRatio) / factor;

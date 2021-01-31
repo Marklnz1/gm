@@ -1,3 +1,4 @@
+var tiempo1,tiempo2;
 class MapaBacteriaOp {
   idGlobal = 0;
   bacteriasOP = [];
@@ -8,12 +9,89 @@ class MapaBacteriaOp {
     this.mapaBacteria = mapa.getMapaBacteria();
     this.configNumerosMapaBacteria(2, 0);
     this.configNumerosMapaBacteria(4, 1);
-    this.configurarBacteriasOP();
+      this.cuadros.length = 0;
+      let t0 = performance.now();
+      this.configurarCuadrosBacteriasOP();
+     
+      let t1 = performance.now()
+      tiempo1 = t1-t0;
+      console.log("Call to doSomething took " + (tiempo1) + " milliseconds.")
+
+      this.cuadros.length = 0;
+       t0 = performance.now()
+
+    this.configurarCuadrosBacteriasOP2();
+     t1 = performance.now()
+     tiempo2 = t1-t0;
+    console.log("Call to doSomething took " + (tiempo2) + " milliseconds.")
+
+
     for(let i = 0; i < this.cuadros.length;i++){
       this.bacteriasOP[i] = new BacteriaOP(this,this.cuadros[i]);
     }
     this.enlazarBacteriasMapa();
     this.insertarIDenMapaBacteria();
+  }
+  configurarCuadrosBacteriasOP2(){
+    let objColumna = [];
+    let objetos = [];
+    let id = 0;
+    let anteriorEntrada = [0,-1,-1];
+    for(let y = 0; y < this.altoTile; y++){
+      for(let x = 0; x < this.anchoTile; x++){
+        let bacteria = this.mapaBacteria.getBacteriaMatriz(x,y);
+        if(bacteria==null){
+          objColumna[x] = null;
+          anteriorEntrada = [-1,x,y];
+
+          continue;
+        } 
+        if(objColumna[x]!=null&&!this.numsEqual(objColumna[x],bacteria)){
+          objColumna[x] = null;
+        }
+        let condicion1 = bacteria.getVecino(6)==null&&objColumna[x]==null;
+
+        let condicion2;
+        if(!condicion1){
+          condicion2 = bacteria.getVecino(6)!=null&&objColumna[x]==null&&!this.numsEqual(objColumna[x-1],bacteria)
+        }
+        if(condicion1||condicion2){
+          objColumna[x] = {id,bOrigen:bacteria,bFinal:bacteria};
+          id++;
+          objetos.push(objColumna[x]);
+          anteriorEntrada = [1,x,y];
+        }else if(bacteria.getVecino(6)!=null&&objColumna[x]==null&&this.numsEqual(objColumna[x-1],bacteria)){
+          objColumna[x] = objColumna[x-1];
+          objColumna[x].bFinal = bacteria;
+          anteriorEntrada = [2,x,y];
+
+        }else if(bacteria.getVecino(6)!=null&&objColumna[x]!=null&&this.numsEqual(objColumna[x],bacteria)){
+          objColumna[x].bFinal = bacteria;
+          anteriorEntrada = [3,x,y];
+
+        }else if(bacteria.getVecino(6)==null&&objColumna[x]!=null&&this.numsEqual(objColumna[x],bacteria)){
+          objColumna[x].bFinal = bacteria;
+          anteriorEntrada = [4,x,y];
+
+        }
+      }
+    }
+    //====================CREANDO CUADROS=======================
+    for(let o of objetos){
+      let posX = o.bOrigen.getXmapa();
+      let posY = o.bOrigen.getYmapa();
+      let ancho = o.bFinal.getXmapa()-posX+32;
+      let alto = o.bFinal.getYmapa()-posY+32;
+      let colision = new Rectangulo(posX,posY,ancho,alto);
+      let color = "#" + random(10, 99) + random(10, 99) + random(10, 99) + "dd";
+      colision.color = color;
+      this.cuadros.push(colision);
+    }
+  
+  }
+  numsEqual(objetoColumna,bacteria){
+    return objetoColumna.bOrigen.numeros[0] ===bacteria.numeros[0]
+    &&objetoColumna.bOrigen.numeros[1] ===bacteria.numeros[1];
   }
   numBacterias(){
     return this.bacteriasOP.length;
@@ -79,7 +157,7 @@ class MapaBacteriaOp {
       }
     }
   }
-  configurarBacteriasOP() {
+  configurarCuadrosBacteriasOP() {
     for (let y = 0; y < this.altoTile; y++) {
       for (let x = 0; x < this.anchoTile; x++) {
         let bMapa = this.mapaBacteria.getBacteriaMatriz(x, y);

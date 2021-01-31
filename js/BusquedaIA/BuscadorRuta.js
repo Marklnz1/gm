@@ -10,7 +10,7 @@ class BuscadorRuta {
   actualizarTemporizadores() {
     this.tmpCambiarDir.actualizar();
   }
-  calcularNuevaRuta(bAnterior){
+  calcularNuevaRuta2(bAnterior){
     let bacteriaOPactual = MAPA.mapaBacteriaOP.getBacteria(this.criatura.getBacteria().idOP);
     let proxPeso = MAPA.capaParasitoOP.getPeso(bacteriaOPactual) + (this.alejarse ? 1 : -1);
     if(proxPeso===0){
@@ -25,7 +25,7 @@ class BuscadorRuta {
       }
     }
   }
-  calcularNuevaRuta2(bAnterior) {
+  calcularNuevaRuta(bAnterior) {
     let bRuta = null;
     let proxPeso = this.criatura.getPeso() + (this.alejarse ? 1 : -1);
     let bCriatura = this.criatura.getBacteria();
@@ -93,10 +93,10 @@ class BuscadorRuta {
     }
   }
   existeUnaProximaRuta() {
-    let bacteriaOPactual = MAPA.mapaBacteriaOP.getBacteria(this.criatura.getBacteria().idOP);
+   /* let bacteriaOPactual = MAPA.mapaBacteriaOP.getBacteria(this.criatura.getBacteria().idOP);
     let proxPeso = MAPA.capaParasitoOP.getPeso(bacteriaOPactual) + (this.alejarse ? 1 : -1);
-    return proxPeso!=null&&proxPeso!==0;
-   /* let proxPeso = 0;
+    return proxPeso!=null&&proxPeso!==0;*/
+    let proxPeso = 0;
     let pesoActual = this.criatura.getPeso();
     proxPeso = pesoActual + (this.alejarse ? 1 : -1);
     if (proxPeso == 0) return false;
@@ -111,7 +111,7 @@ class BuscadorRuta {
         return true;
       }
     }
-    return false;*/
+    return false;
   }
   getBacteriaNoRetorno(bAnterior, bacteriaActual, bRuta) {
     if (bAnterior == null || bRuta == null || bRuta != bAnterior) return null;

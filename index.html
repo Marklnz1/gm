@@ -1,0 +1,83 @@
+<html>
+  <head>
+    <title>Raycasting</title>
+    <!--Animacion-->
+    <script src="js/Animacion/Animador.js"></script>
+    <script src="js/Animacion/GestorAnimadores.js"></script>
+    <script src="js/Animacion/GestorFotogramas.js"></script>
+    <script src="js/Animacion/HojaSprites.js"></script>
+    <script src="js/Animacion/Sprite.js"></script>
+    <script src="js/Animacion/Temporizador.js"></script>
+    <!--BusquedaIA-->
+    <script src="js/BusquedaIA/Bacteria.js"></script>
+    <script src="js/BusquedaIA/BacteriaOP.js"></script>
+    <script src="js/BusquedaIA/BuscadorRuta.js"></script>
+    <script src="js/BusquedaIA/CapaParasitoOP.js"></script>
+    <script src="js/BusquedaIA/CapaParasito.js"></script>
+    <script src="js/BusquedaIA/MapaBacteria.js"></script>
+    <script src="js/BusquedaIA/MapaBacteriaOP.js"></script>
+    <script src="js/BusquedaIA/MecanismoMovimiento.js"></script>
+    <script src="js/BusquedaIA/Parasito.js"></script>
+    <!--Extra-->
+    <script src="js/Extra/CargadorLista.js"></script>
+    <script src="js/Extra/Direccion.js"></script>
+    <script src="js/Extra/EcuacionLineal.js"></script>
+    <script src="js/Extra/Linea.js"></script>
+    <script src="js/Extra/OperLineas.js"></script>
+    <script src="js/Extra/Point.js"></script>
+    <script src="js/Extra/Poligono.js"></script>
+    <script src="js/Extra/Rectangulo.js"></script>
+    <!--InterfazUsuario-->
+    <script src="js/InterfazUsuario/ConfigMovil.js"></script>
+    <script src="js/InterfazUsuario/Teclado.js"></script>
+    <!--Mapa-->
+    <script src="js/Mapa/CamaraMapa.js"></script>
+    <script src="js/Mapa/CapaSprites.js"></script>
+    <script src="js/Mapa/DatosTiled.js"></script>
+    <script src="js/Mapa/GeneradorSombra.js"></script>
+    <script src="js/Mapa/GestorCriaturas.js"></script>
+    <script src="js/Mapa/Mapa.js"></script>
+    <script src="js/Mapa/ObjetoDibujo.js"></script>
+    <script src="js/Mapa/PuntoEsquinaRY.js"></script>
+    <script src="js/Mapa/RayoSMB.js"></script>
+    <script src="js/Mapa/RayoEsquinaSMB.js"></script>
+    <script src="js/Mapa/RayoNormalSMB.js"></script>
+    <!--Personaje-->
+        <!--Base-->
+        <script src="js/Personaje/Base/Ente.js"></script>
+        <script src="js/Personaje/Base/Criatura.js"></script>
+        <script src="js/Personaje/Base/Dependiente.js"></script>
+        <script src="js/Personaje/Base/TransPersonaje.js"></script>
+        <!--KR_NJ-->
+        <script src="js/Personaje/KR_NJ/CondicionesKoroNJ.js"></script>
+        <script src="js/Personaje/KR_NJ/KR_NJ.js"></script>
+        <script src="js/Personaje/KR_NJ/Transformacion1KR.js"></script>
+    <!--Personaje-->
+    <script src="js/Personaje/EstadoInstantaneo.js"></script>
+    <script src="js/Personaje/EstadoJugador.js"></script>
+    <script src="js/Personaje/GestorEstadosJugador.js"></script>
+    <script src="js/Personaje/player.js"></script>
+    <script src="js/Personaje/TransEnlaze.js"></script>
+    <script src="js/Personaje/TransicionTrans.js"></script>
+    <!--Principal-->
+    <script src="js/FuncionesMovil.js"></script>
+    <script src="js/FuncionesLogica.js"></script>
+    <script src="js/CargarAnimaciones.js"></script>
+    <script src="js/CargarHojasSprites.js"></script>
+    <script src="js/Principal.js"></script>
+
+
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, target-densitydpi=device-dpi" -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <link rel="stylesheet" href="css/estilos.css" />
+  </head>
+
+  <body onload="comenzar();">
+    <button onclick="openFullscreen();">Open Fullscreen</button>
+    <canvas id="canvas"> </canvas>
+  </body>
+</html>

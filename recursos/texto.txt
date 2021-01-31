@@ -1,0 +1,17 @@
+[
+	{
+		"titulo":"Empire",
+		"artista":"Bob"
+	},
+{
+		"titulo":"Hide",
+		"artista":"Bonnie"
+	},
+
+{
+		"titulo":"Efe",
+		"artista":"One for the money"
+	}
+
+
+]

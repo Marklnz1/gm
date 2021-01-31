@@ -55,7 +55,7 @@ function getOrientation() {
 }
 
 function openFullscreen() {
-  GESTOR_MOVIL.reportarCambioPantalla();
+  GESTOR_MOVIL.reportarCambioPantalla(1);
   //=========================================
   var elem = document.getElementById("canvas");
   if (elem.requestFullscreen) {
@@ -69,5 +69,5 @@ function openFullscreen() {
   }
 }
 function rotacionMovil() {
-  GESTOR_MOVIL.reportarCambioPantalla();
+  GESTOR_MOVIL.reportarCambioPantalla(2);
 }

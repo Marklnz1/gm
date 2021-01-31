@@ -10,10 +10,11 @@ class ConfigMovil {
     return this.vectMovU;
   }
   dibujar(graficos) {
+    
     this.cuadroRangoMovimiento.dibujarContorno(graficos, "purple");
     this.cuadroToque.dibujar(graficos, "#f1a7");
     dibujarTexto(
-      "FPS5 : " +
+      "FPS6 : " +
         FPSactuales +
         "  movil : " +
         isMobile() +
@@ -53,7 +54,8 @@ class ConfigMovil {
   }
   
   //================================================================================
-  reportarCambioPantalla() {
+  reportarCambioPantalla(num) {
+    console.log(num);
     let factor = Math.round(window.devicePixelRatio);
     
     let anchoCanvas = (screen.width * window.devicePixelRatio) / factor;
@@ -80,9 +82,9 @@ class ConfigMovil {
     this.vectMovU.x = 0;
     this.vectMovU.y = 0;
     this.cuadroToque.x =
-      this.cuadroRangoMovimiento.getXcentro - this.cuadroToque.getAncho / 2;
+      this.cuadroRangoMovimiento.getXcentro() - this.cuadroToque.getAncho() / 2;
     this.cuadroToque.y =
-      this.cuadroRangoMovimiento.getYcentro - this.cuadroToque.getAlto / 2;
+      this.cuadroRangoMovimiento.getYcentro() - this.cuadroToque.getAlto() / 2;
   }
   //================================================================================
   reportarToquePantalla(posXusuario, posYusuario) {
@@ -92,14 +94,14 @@ class ConfigMovil {
     this.actualizarVectorMov();
   }
   actualizarCuadroToque(posX, posY) {
-    this.cuadroToque.x = posX - this.cuadroToque.getAncho / 2;
-    this.cuadroToque.y = posY - this.cuadroToque.getAlto / 2;
+    this.cuadroToque.x = posX - this.cuadroToque.getAncho() / 2;
+    this.cuadroToque.y = posY - this.cuadroToque.getAlto() / 2;
   }
   actualizarVectorMov() {
     let dx =
-      this.cuadroToque.getXcentro - this.cuadroRangoMovimiento.getXcentro;
+      this.cuadroToque.getXcentro() - this.cuadroRangoMovimiento.getXcentro();
     let dy =
-      this.cuadroToque.getYcentro - this.cuadroRangoMovimiento.getYcentro;
+      this.cuadroToque.getYcentro() - this.cuadroRangoMovimiento.getYcentro();
     if (dx === 0 && dy === 0) {
       this.resetearVectorMov();
     }

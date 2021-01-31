@@ -48,13 +48,15 @@ class MapaBacteriaOp {
         if(objColumna[x]!=null&&!this.numsEqual(objColumna[x],bacteria)){
           objColumna[x] = null;
         }
-        // ( objColumna[x]==null||!this.numsEqual(objColumna[x],bacteria) ) && ( objColumna[x-1]==null||!this.numsEqual(objColumna[x-1],bacteria) ) 
-        if(objColumna[x]==null&&(objColumna[x-1]==null||!this.numsEqual(objColumna[x-1],bacteria))){
-          objColumna[x] = {id,bOrigen:bacteria};
-          id++;
-          objetos.push(objColumna[x]);
-        }else if(objColumna[x]==null){
-          objColumna[x] = objColumna[x-1]; 
+        if(objColumna[x]==null){
+          if(objColumna[x-1]==null||!this.numsEqual(objColumna[x-1],bacteria)){
+            objColumna[x] = {id,bOrigen:bacteria};
+            id++;
+            objetos.push(objColumna[x]);
+          }else{
+            objColumna[x] = objColumna[x-1]; 
+
+          }
         }
         objColumna[x].bFinal = bacteria;
         
@@ -67,8 +69,10 @@ class MapaBacteriaOp {
       let ancho = o.bFinal.getXmapa()-posX+32;
       let alto = o.bFinal.getYmapa()-posY+32;
       let colision = new Rectangulo(posX,posY,ancho,alto);
+      
       let color = "#" + random(10, 99) + random(10, 99) + random(10, 99) + "dd";
       colision.color = color;
+      colision.id = o.id;
       this.cuadros.push(colision);
     }
   

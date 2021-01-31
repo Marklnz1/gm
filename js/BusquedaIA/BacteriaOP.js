@@ -6,7 +6,7 @@ class BacteriaOP {
   posCentro;
   constructor(mapaBacteriaOP,colision) {
     this.mapaBacteriaOP = mapaBacteriaOP;
-    this.id = mapaBacteriaOP.idGlobal++;
+    this.id = colision.id;
     this.colision = colision;
     let xCentro = this.getX()  + colision.getAncho() / 2 - 1;
     let yCentro = this.getY()  + colision.getAlto() / 2 - 1;
@@ -41,7 +41,7 @@ class BacteriaOP {
   }
   dibujar(graficos) {
     this.colision.dibujar(graficos, this.colision.color);
-    dibujarTexto(""+this.peso,this.getXcentro(), this.getYcentro(),graficos);
+    dibujarTexto(""+this.id,this.getXcentro(), this.getYcentro(),graficos);
   }
 
   getAncho() {

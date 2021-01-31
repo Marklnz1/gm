@@ -24,7 +24,6 @@ class BuscadorRuta {
         return this.criatura.getBacteria().getVecino(i);
       }
     }
-
   }
   calcularNuevaRuta2(bAnterior) {
     let bRuta = null;

@@ -67,7 +67,6 @@ class CapaParasito {
 		}
 	}
 	actualizar() {
-		console.log("ME ACTUALIZO XD")
 		let bacteriaCentral = this.criatura.getBacteria();
 		if(bacteriaCentral == null) {
 			return;

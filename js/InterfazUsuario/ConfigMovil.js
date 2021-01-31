@@ -13,7 +13,7 @@ class ConfigMovil {
     this.cuadroRangoMovimiento.dibujarContorno(graficos, "purple");
     this.cuadroToque.dibujar(graficos, "#f1a7");
     dibujarTexto(
-      "FPS4 : " +
+      "FPS5 : " +
         FPSactuales +
         "  movil : " +
         isMobile() +

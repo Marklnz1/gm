@@ -110,9 +110,9 @@ class Mapa {
       this.koro.actualizar();
       this.koro.actualizarImagenActual();
     }
-    this.capaParasitoOP.actualizar();
     this.camaraMapa.actualizar();
     JUGADOR.getCapaParasito().primeraVez = true;
+    this.capaParasitoOP.primeraVez = true;
   }
 
   dibujar(graficos) {

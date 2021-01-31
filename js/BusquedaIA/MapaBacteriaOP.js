@@ -13,7 +13,7 @@ class MapaBacteriaOp {
       let t0 = performance.now();
       this.configurarCuadrosBacteriasOP();
      
-      let t1 = performance.now()
+      let t1 = performance.now();
       tiempo1 = t1-t0;
       console.log("Call to doSomething took " + (tiempo1) + " milliseconds.")
 
@@ -36,44 +36,28 @@ class MapaBacteriaOp {
     let objColumna = [];
     let objetos = [];
     let id = 0;
-    let anteriorEntrada = [0,-1,-1];
+    let bacteria;
     for(let y = 0; y < this.altoTile; y++){
       for(let x = 0; x < this.anchoTile; x++){
-        let bacteria = this.mapaBacteria.getBacteriaMatriz(x,y);
+        bacteria = this.mapaBacteria.getBacteriaMatriz(x,y);
         if(bacteria==null){
           objColumna[x] = null;
-          anteriorEntrada = [-1,x,y];
-
           continue;
         } 
+
         if(objColumna[x]!=null&&!this.numsEqual(objColumna[x],bacteria)){
           objColumna[x] = null;
         }
-        let condicion1 = bacteria.getVecino(6)==null&&objColumna[x]==null;
-
-        let condicion2;
-        if(!condicion1){
-          condicion2 = bacteria.getVecino(6)!=null&&objColumna[x]==null&&!this.numsEqual(objColumna[x-1],bacteria)
-        }
-        if(condicion1||condicion2){
-          objColumna[x] = {id,bOrigen:bacteria,bFinal:bacteria};
+        // ( objColumna[x]==null||!this.numsEqual(objColumna[x],bacteria) ) && ( objColumna[x-1]==null||!this.numsEqual(objColumna[x-1],bacteria) ) 
+        if(objColumna[x]==null&&(objColumna[x-1]==null||!this.numsEqual(objColumna[x-1],bacteria))){
+          objColumna[x] = {id,bOrigen:bacteria};
           id++;
           objetos.push(objColumna[x]);
-          anteriorEntrada = [1,x,y];
-        }else if(bacteria.getVecino(6)!=null&&objColumna[x]==null&&this.numsEqual(objColumna[x-1],bacteria)){
-          objColumna[x] = objColumna[x-1];
-          objColumna[x].bFinal = bacteria;
-          anteriorEntrada = [2,x,y];
-
-        }else if(bacteria.getVecino(6)!=null&&objColumna[x]!=null&&this.numsEqual(objColumna[x],bacteria)){
-          objColumna[x].bFinal = bacteria;
-          anteriorEntrada = [3,x,y];
-
-        }else if(bacteria.getVecino(6)==null&&objColumna[x]!=null&&this.numsEqual(objColumna[x],bacteria)){
-          objColumna[x].bFinal = bacteria;
-          anteriorEntrada = [4,x,y];
-
+        }else if(objColumna[x]==null){
+          objColumna[x] = objColumna[x-1]; 
         }
+        objColumna[x].bFinal = bacteria;
+        
       }
     }
     //====================CREANDO CUADROS=======================

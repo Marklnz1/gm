@@ -1,3 +1,4 @@
+var tMetodo1,tMetodo2;
 class MapaBacteria {
   bacteriaCentral;
   bacteriasMapa;
@@ -13,10 +14,31 @@ class MapaBacteria {
     this.mapa = mapa;
     this.limiteBacterias = limiteBacterias;
     this.bacteriasMapa = [];
+    let t0 = performance.now();
     this.bacteriaCentral = new Bacteria(this, xTile, yTile, this.tamCuadro);
     this.bacteriaCentral.expandirBacteria();
+    let t1 = performance.now();
+    tMetodo1 = t1-t0;
+    this.idGlobal=0;
+    this.bacteriasMapa = [];
+    t0 = performance.now();
+    this.crearBacterias();
+    t1 = performance.now();
+    tMetodo2 = t1-t0;
 
     this.enlazarBacteriasMapa();
+  }
+  crearBacterias(){
+    let matrizObjetos = this.mapa.matrizObjetos;
+    let anchoTile = this.mapa.getAnchoTile();
+    let altoTile = this.mapa.getAltoTile();
+    for(let y = 0; y < altoTile;y++){
+      for(let x = 0; x < anchoTile;x++){
+        if(matrizObjetos[x+y*anchoTile]!=null)continue;
+
+        this.bacteriasMapa.push(new Bacteria(this,x,y,32));
+      }
+    }
   }
   crearCapaParasito(criatura) {
     let capaParasitoCreada = new CapaParasito(this, criatura);

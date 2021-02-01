@@ -51,8 +51,13 @@ class ConfigMovil {
       110,
       graficos
     );
-    dibujarTexto("T1 : "+tiempo1,10,130,graficos);
-    dibujarTexto("T2 : "+tiempo2,10,155,graficos)
+    dibujarTexto("TBacteriaOp : "+tMapaBacteriaOP,10,130,graficos);
+    dibujarTexto("TMetodo1 : "+tMetodo1,10,150,graficos);
+    dibujarTexto("TMetodo2 : "+tMetodo2,10,170,graficos);
+    dibujarTexto("TMatrizObjetos : "+tMatrizObjetos,10,190,graficos);
+    dibujarTexto("TTotalMetodo2 : "+(tMetodo2+tMatrizObjetos),10,210,graficos)
+
+
   }
   
   //================================================================================

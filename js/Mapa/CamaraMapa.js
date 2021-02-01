@@ -100,8 +100,8 @@ class CamaraMapa {
     }
     */
     //========================================================
-    //JUGADOR.capaParasito.dibujarPesos(graficos);
-    this.mapa.getMapaBacteriaOP().dibujar(graficos);
+    JUGADOR.capaParasito.dibujarPesos(graficos);
+   // this.mapa.getMapaBacteriaOP().dibujar(graficos);
     //========================================================
     //this.rectangulo.setLocation(this.mapa.koro.registroMov.getX(),this.mapa.koro.registroMov.getY());
     //this.rectangulo.dibujar(graficos,"magenta");

@@ -1,3 +1,4 @@
+var tMatrizObjetos;
 class Mapa {
   movXinicial;
   movYinicial;
@@ -9,10 +10,18 @@ class Mapa {
   gestorCriaturas;
   koro;
   mapaBacteriaOP;
+  matrizObjetos;
   constructor(datosTiled) {
     this.ancho = datosTiled.anchoMapa;
     this.alto = datosTiled.altoMapa;
+    this.anchoTile = this.ancho/32;
+    this.altoTile = this.alto/32;
     this.colisionesTile = datosTiled.colisiones;
+    this.matrizObjetos = [];
+    let t0 = performance.now();
+    this.configMatrizObjetos_Colisiones();
+    let t1 = performance.now();
+    tMatrizObjetos = t1-t0;
     this.hojaSprite = datosTiled.hojasSprites[0];
     this.imagenMapa = datosTiled.imagenMapa;
     this.tamTile = 32;
@@ -29,8 +38,7 @@ class Mapa {
     this.generadorSombra.crearRayosEsquina(this.puntosEsquina);
     this.camaraMapa = new CamaraMapa(this, this.registroMovCentral);
     this.gestorCriaturas = new GestorCriaturas(this);
-    //=========================0
-
+    //=========================
     for (let colision of this.colisionesTile) {
       this.lineasSombra.push(...this.crearLineasDeRectangulo(colision));
     }
@@ -39,6 +47,23 @@ class Mapa {
     this.koro.setPosMapa(208, 378);
     this.contador = 0;
     this.cuadros = [];
+  }
+  configMatrizObjetos_Colisiones(){
+    let anchoC;
+    let altoC;
+    let posXini;
+    let posYini;
+    for(let c of this.colisionesTile){
+      posXini = c.getX()/32;
+      posYini = c.getY()/32;
+      anchoC = c.getAncho()/32;
+      altoC = c.getAlto()/32;
+      for(let y = 0; y < altoC;y++){
+        for(let x = 0; x < anchoC; x++){
+          this.matrizObjetos[posXini+x+(posYini+y)*this.anchoTile] = 0;
+        }
+      }
+    }
   }
   configuracionFinal() {
     this.koro.mb.configurarBacteriaDestino();
@@ -117,6 +142,14 @@ class Mapa {
 
   dibujar(graficos) {
     this.camaraMapa.dibujar(graficos);
+    /*for(let y = 0; y < this.altoTile; y++){
+      for(let x = 0; x < this.anchoTile; x++){
+        if(this.matrizObjetos[x+y*this.anchoTile]==null) continue;
+        let factor = 6;
+        let r = new Rectangulo(100+x*factor,100+y*factor,factor,factor);
+        r.dibujar(graficos,"blue");
+      }
+    }*/
   }
   getAncho() {
     return this.ancho;
@@ -126,10 +159,10 @@ class Mapa {
     return this.alto;
   }
   getAnchoTile() {
-    return this.ancho / this.tamTile;
+    return this.anchoTile;
   }
   getAltoTile() {
-    return this.alto / this.tamTile;
+    return this.altoTile;
   }
   getGeneradorSombra(){
     return this.generadorSombra;

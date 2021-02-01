@@ -10,22 +10,41 @@ class BuscadorRuta {
   actualizarTemporizadores() {
     this.tmpCambiarDir.actualizar();
   }
-  calcularNuevaRuta2(bAnterior){
-    let bacteriaOPactual = MAPA.mapaBacteriaOP.getBacteria(this.criatura.getBacteria().idOP);
-    let proxPeso = MAPA.capaParasitoOP.getPeso(bacteriaOPactual) + (this.alejarse ? 1 : -1);
-    if(proxPeso===0){
-      return this.calcularNuevaRuta2(bAnterior);
-    }
+  calcularNuevaRuta(bAnterior){
+    if(this.criatura.getBloqueT()===this.criatura.objetivo.getBloqueT()&&this.criatura.getBacteria()!=this.criatura.objetivo.getBacteria()){
+      let dir_bacteriaX = Math.sign(this.criatura.objetivo.getBacteria().getXmapa()-this.criatura.getBacteria().getXmapa());
+      let bacteriaX = this.criatura.getBacteria().getVecino( Direccion.convertPointToInt(dir_bacteriaX,0) );
 
+      let dir_bacteriaY = Math.sign(this.criatura.objetivo.getBacteria().getYmapa()-this.criatura.getBacteria().getYmapa());
+      let bacteriaY = this.criatura.getBacteria().getVecino( Direccion.convertPointToInt(0,dir_bacteriaY) );
+
+      if(bacteriaX!=null) return bacteriaX;
+      
+      return bacteriaY;
+    }
+    let proxPeso = this.criatura.getPeso() + (this.alejarse ? 1 : -1);
+    let capaDeObjetivo = this.criatura.getCapaParasitoObjetivo();
+    let bqActual = this.criatura.getBloqueT();
     for(let i = 0; i < 8; i+=2){
-      let bVecinaOP = bacteriaOPactual.getVecino(i);
-      if(bVecinaOP==null) continue;
-      if(bVecinaOP.peso===proxPeso){
+      let bqVecino = bqActual.getVecino(i);
+      if(bqVecino==null) continue;
+      if(capaDeObjetivo.getPeso(bqVecino)===proxPeso){
         return this.criatura.getBacteria().getVecino(i);
       }
     }
+    //========================================================================================
+    
   }
-  calcularNuevaRuta(bAnterior) {
+  existeUnaProximaRuta() {
+    if(this.criatura.getBloqueT()===this.criatura.objetivo.getBloqueT()&&this.criatura.getBacteria()!=this.criatura.objetivo.getBacteria()){
+      return true;
+    }
+
+     let proxPeso = this.criatura.getPeso() + (this.alejarse ? 1 : -1);
+     return proxPeso>0;
+
+   }
+  calcularNuevaRuta2(bAnterior) {
     let bRuta = null;
     let proxPeso = this.criatura.getPeso() + (this.alejarse ? 1 : -1);
     let bCriatura = this.criatura.getBacteria();
@@ -92,7 +111,7 @@ class BuscadorRuta {
       if (pesoVecino === proxPeso) this.posiblesBacterias.push(bVecina);
     }
   }
-  existeUnaProximaRuta() {
+  existeUnaProximaRuta2() {
    /* let bacteriaOPactual = MAPA.mapaBacteriaOP.getBacteria(this.criatura.getBacteria().idOP);
     let proxPeso = MAPA.capaParasitoOP.getPeso(bacteriaOPactual) + (this.alejarse ? 1 : -1);
     return proxPeso!=null&&proxPeso!==0;*/

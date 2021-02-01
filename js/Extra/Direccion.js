@@ -126,7 +126,30 @@ class Direccion {
 	public static Point convertToPoint(int direccionNumerica) {
 		return (Point)drcNumericoApunto[direccionNumerica].clone();
 	}*/
-  
+  static convertPointToInt(x, y) {
+    let cadena = "" + x + y;
+    switch (cadena) {
+      case "0-1":
+        return 0;
+      case "1-1":
+        return 1;
+      case "10":
+        return 2;
+      case "11":
+        return 3;
+      case "01":
+        return 4;
+      case "-11":
+        return 5;
+      case "-10":
+        return 6;
+      case "-1-1":
+        return 7;
+
+      default:
+        return '?';
+    }
+  }
   static convertIntToPoint(direccionNumerica) {
     switch (direccionNumerica) {
       case 0:

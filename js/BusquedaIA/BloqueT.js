@@ -1,13 +1,13 @@
-class BacteriaOP {
+class BloqueT {
   id;
   vecinos = [];
-  mapaBacteriaOP;
+  mapaTetris;
   colision;
   posCentro;
   bOrigen;
   bFinal;
-  constructor(mapaBacteriaOP,datos) {
-    this.mapaBacteriaOP = mapaBacteriaOP;
+  constructor(mapaTetris,datos) {
+    this.mapaTetris = mapaTetris;
     this.id = datos.id;
     this.bOrigen = datos.bOrigen;
     this.bFinal = datos.bFinal;
@@ -21,13 +21,13 @@ class BacteriaOP {
     for(let i = 0; i<2;i++){
         bVecina = this.bOrigen.getVecino(i*6);
         if(bVecina!=null)
-        this.vecinos[i*6] = this.mapaBacteriaOP.getBacteria(bVecina.idOP);
+        this.vecinos[i*6] = this.mapaTetris.getBloqueT(bVecina.idBloqueT);
         
     }
     for(let i = 0; i<2;i++){
         bVecina = this.bFinal.getVecino(2+i*2);
         if(bVecina!=null)
-        this.vecinos[2+i*2] = this.mapaBacteriaOP.getBacteria(bVecina.idOP);
+        this.vecinos[2+i*2] = this.mapaTetris.getBloqueT(bVecina.idBloqueT);
     }
    
   }
@@ -65,7 +65,7 @@ class BacteriaOP {
   }
   dibujar(graficos) {
     this.colision.dibujar(graficos, this.colision.color);
-    dibujarTexto(""+this.numVecinos(),this.getXcentro(), this.getYcentro(),graficos);
+    dibujarTexto(""+this.id,this.getXcentro(), this.getYcentro(),graficos);
   }
 
   getAncho() {

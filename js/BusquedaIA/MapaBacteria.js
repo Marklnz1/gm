@@ -1,4 +1,3 @@
-var tMetodo1, tMetodo2;
 class MapaBacteria {
   bacteriaCentral;
   bacteriasMapa;
@@ -8,23 +7,17 @@ class MapaBacteria {
   limiteBacterias;
   bacteriasTile;
   capasParasito = [];
-  constructor(mapa, xTile, yTile, limiteBacterias = 30000) {
+  mapaTetris;
+  constructor(mapa,limiteBacterias = 30000) {
     this.bacteriasTile = [];
-
     this.mapa = mapa;
     this.limiteBacterias = limiteBacterias;
     this.bacteriasMapa = [];
     this.matrizBacterias = [];
     this.crearBacterias();
-
-    let t0 = performance.now();
     this.enlazarBacteriasMapa();
-    let t1 = performance.now();
-    tMetodo1 = t1-t0;
-    t0 = performance.now();
-    this.enlazarBacteriasMapa2();
-    t1 = performance.now();
-    tMetodo2 = t1-t0;
+    this.mapaTetris = new MapaTetris(this);
+
   }
   crearBacterias() {
     let matrizColisiones = this.mapa.matrizColisiones;
@@ -54,7 +47,7 @@ class MapaBacteria {
     return bCreada;
   }
   crearCapaParasito(criatura) {
-    let capaParasitoCreada = new CapaParasito(this, criatura);
+    let capaParasitoCreada = new CapaParasito(criatura.getBloqueT, this.mapaTetris.bloquesT);
     this.capasParasito.push(capaParasitoCreada);
     return capaParasitoCreada;
   }
@@ -67,26 +60,11 @@ class MapaBacteria {
   getBacteria(id) {
     return this.bacteriasMapa[id];
   }
-  //=========================================================================================================
-  enlazarBacteriasMapa() {
-    for (let bAnalizada of this.bacteriasMapa) {
-      for (let i = 0; i < 8; i++) {
-        let pDir = Direccion.convertIntToPoint(i);
-        let xTileB = bAnalizada.getXtile() + pDir.getX();
-        let yTileB = bAnalizada.getYtile() - pDir.getY();
-        let bVecina = null;
-        if ((bVecina = this.getBacteriaMatriz(xTileB, yTileB)) != null) {
-          bAnalizada.addVecino(i, bVecina);
-        }
-      }
-      if (bAnalizada.numVecinos() != 8 && bAnalizada.numVecinosCruz() != 3) {
-        bAnalizada.esEsquina = true;
-        let puntoEsquina = new PuntoEsquinaRY(bAnalizada);
-        this.mapa.puntosEsquina.push(puntoEsquina);
-      }
-    }
+  getBloqueT(id){
+    return this.mapaTetris.getBloqueT(id);
   }
-  enlazarBacteriasMapa2(){
+  //=========================================================================================================
+  enlazarBacteriasMapa(){
     let anchoTile = this.mapa.getAnchoTile();
     let altoTile = this.mapa.getAltoTile();
     let lista = [];

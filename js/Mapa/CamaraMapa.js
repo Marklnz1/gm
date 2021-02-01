@@ -51,7 +51,7 @@ class CamaraMapa {
     if (isMobile()) {
       this.recortarGraficosCirculo(graficos);
     } else {
-      // this.generadorSombra.recortarGraficos(graficos);
+       this.generadorSombra.recortarGraficos(graficos);
     }
     //========================================================
     
@@ -101,12 +101,12 @@ class CamaraMapa {
     */
     //========================================================
     //JUGADOR.capaParasito.dibujarPesos(graficos);
-    this.mapa.getMapaBacteriaOP().dibujar(graficos);
+    //this.mapa.mapaBacteria.mapaTetris.dibujar(graficos);
     //========================================================
     //this.rectangulo.setLocation(this.mapa.koro.registroMov.getX(),this.mapa.koro.registroMov.getY());
     //this.rectangulo.dibujar(graficos,"magenta");
     graficos.resetTransform();
-   // graficos.drawImage(this.cvPreImagenFinal, 0, 0);
+    graficos.drawImage(this.cvPreImagenFinal, 0, 0);
     graficos.restore();
   }
   dibujarPreImagenFinal() {

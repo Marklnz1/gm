@@ -46,7 +46,6 @@ class MecanismoMovimiento {
   actualizar() {
     this.buscadorRuta.actualizarTemporizadores();
     if (!this.posibleMovimiento()) return;
-
     this.movX += this.vectDirMov.getX() * this.criatura.getVelocidadActual();
     this.movY += this.vectDirMov.getY() * this.criatura.getVelocidadActual();
     do {

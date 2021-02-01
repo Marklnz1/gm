@@ -1,17 +1,16 @@
 class CapaParasito {
 	criatura;
-	bacteriasParaExpandir;
+	huespedesParaExpandir;
 	parasitos;
 	mapaBacteria;
 	primeraVez = true;
-	constructor(mapaBacteria,criatura) {
-		this.mapaBacteria = mapaBacteria;
-		this.criatura = criatura;
-		this.bacteriasParaExpandir = [];		
+	constructor(getOrigen,listaHuesped) {
+		this.huespedesParaExpandir = [];		
 		this.parasitos = [];
 		this.primeraVez = true;
-		for(let i = 0; i < mapaBacteria.numBacterias(); i++) {
-			this.parasitos[i] = new Parasito(this,mapaBacteria.getBacteria(i));
+		this.getOrigen = getOrigen;
+		for(let i = 0; i < listaHuesped.length; i++) {
+			this.parasitos[i] = new Parasito(this,listaHuesped[i]);
 		}
 	}
 /*
@@ -20,7 +19,7 @@ class CapaParasito {
 		let parasitoActual = this.getParasito(bacteriaDestino);
 		let parasitoNuevo = null;
 	
-		caminoBacteria.add(parasitoActual.bacteria);
+		caminoBacteria.add(parasitoActual.huesped);
 		let bacteriaVecina = null;
 
 		do {
@@ -28,7 +27,7 @@ class CapaParasito {
 			parasitoNuevo = null;
 			
 			for(int i = 0; i<8;i+=2) {
-				bacteriaVecina = parasitoActual.bacteria.getBacteriaVecina(i);
+				bacteriaVecina = parasitoActual.huesped.getBacteriaVecina(i);
 				if(bacteriaVecina!=null&&getPeso(bacteriaVecina)<parasitoActual.getPeso()) {
 					caminoBacteria.add(bacteriaVecina);
 					parasitoNuevo = getParasito(bacteriaVecina);
@@ -45,21 +44,21 @@ class CapaParasito {
 
 		return caminoBacteriaRevertido;
 	}*/
-	getParasito(bacteria) {
+	getParasito(huesped) {
 		if(this.primeraVez) {
 			this.primeraVez = false;
 			this.actualizar();
 		}
 
-		return this.parasitos[bacteria.getID()];
+		return this.parasitos[huesped.getID()];
 	}
-	getPeso(bacteria) {
+	getPeso(huesped) {
 		if(this.primeraVez) {
 			this.primeraVez = false;
 			this.actualizar();	
 		}
 		
-		return this.parasitos[bacteria.getID()].getPeso();
+		return this.parasitos[huesped.getID()].getPeso();
 	}
 	dibujarPesos(graficos) {
 		for(let parasito of this.parasitos) {
@@ -67,45 +66,45 @@ class CapaParasito {
 		}
 	}
 	actualizar() {
-		let bacteriaCentral = this.criatura.getBacteria();
-		if(bacteriaCentral == null) {
+		let huespedOrigen = this.getOrigen();
+		if(huespedOrigen == null) {
 			return;
 		}
-		this.bacteriasParaExpandir.length = 0;
+		this.huespedesParaExpandir.length = 0;
 		for(let i = 0; i < this.parasitos.length; i++) {
 			this.parasitos[i].setPeso(-1);
 		}
-		this.configurarParasito(bacteriaCentral, null);
-		this.bacteriasParaExpandir.push(bacteriaCentral);
+		this.configurarParasito(huespedOrigen, null);
+		this.huespedesParaExpandir.push(huespedOrigen);
 		this.ejecutarEnEspera();
 	}
 
 	ejecutarEnEspera() {
 
-		let nuevasBacteriasParaExpandir = [];
-		for(let bAnalizada of this.bacteriasParaExpandir) {	
+		let nuevosHuespedesExpandir = [];
+		for(let hAnalizado of this.huespedesParaExpandir) {	
 			for(let i = 0; i < 8;i+=2) {
-				let bVecina = bAnalizada.getVecino(i);
-				if(bVecina!=null&&this.parasitos[bVecina.getID()].esLibre) {
-					this.configurarParasito(bVecina, bAnalizada);
-					nuevasBacteriasParaExpandir.push(bVecina);
+				let vecino = hAnalizado.getVecino(i);
+				if(vecino!=null&&this.parasitos[vecino.getID()].esLibre) {
+					this.configurarParasito(vecino, hAnalizado);
+					nuevosHuespedesExpandir.push(vecino);
 				}
 			}
 		}
 		
-		if(nuevasBacteriasParaExpandir.length == 0) {
+		if(nuevosHuespedesExpandir.length == 0) {
 			return;
         }
-        this.bacteriasParaExpandir.length=0;
-		this.bacteriasParaExpandir.push(...nuevasBacteriasParaExpandir);
+        this.huespedesParaExpandir.length=0;
+		this.huespedesParaExpandir.push(...nuevosHuespedesExpandir);
 		this.ejecutarEnEspera();
 	}
 	
-	configurarParasito(bacteriaHijo,bacteriaPadre) {
-		let parasitoHijo = this.getParasito(bacteriaHijo);
+	configurarParasito(huespedHijo,huespedPadre) {
+		let parasitoHijo = this.getParasito(huespedHijo);
 		
-		if(bacteriaPadre!=null)
-			parasitoHijo.setPeso(this.getPeso(bacteriaPadre) + 1);
+		if(huespedPadre!=null)
+			parasitoHijo.setPeso(this.getPeso(huespedPadre) + 1);
 		else {
 			parasitoHijo.setPeso(1);
 		}

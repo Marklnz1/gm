@@ -1,26 +1,22 @@
-var tMapaBacteriaOP;
-class MapaBacteriaOp {
+class MapaTetris {
   idGlobal = 0;
-  bacteriasOP = [];
+  bloquesT = [];
   datosOP = [];
-  constructor(mapa) {
+  constructor(mapaBacteria) {
     this.cuadros = [];
-    this.altoTile = mapa.getAltoTile();
-    this.anchoTile = mapa.getAnchoTile();
-    this.mapaBacteria = mapa.getMapaBacteria();    
+    this.altoTile = mapaBacteria.mapa.getAltoTile();
+    this.anchoTile = mapaBacteria.mapa.getAnchoTile();
+    this.mapaBacteria = mapaBacteria;    
     this.configNumerosMapaBacteria(4, 1);
-    let t0 = performance.now();
     this.crearDatosOP();
-    let t1 = performance.now();
-    tMapaBacteriaOP = t1 - t0;
     this.crearBacteriasOP();
     
   }
   crearBacteriasOP(){
     for (let d of this.datosOP) {
-      this.bacteriasOP.push(new BacteriaOP(this,d));
+      this.bloquesT.push(new BloqueT(this,d));
     }
-    for(let bop of this.bacteriasOP){
+    for(let bop of this.bloquesT){
       bop.configVecinos();
     }
   }
@@ -52,7 +48,7 @@ class MapaBacteriaOp {
           }
         }
         objColumna[x].bFinal = bacteria;
-        bacteria.idOP = objColumna[x].id;
+        bacteria.idBloqueT = objColumna[x].id;
       }
     }
   }
@@ -63,10 +59,10 @@ class MapaBacteriaOp {
     );
   }
   numBacterias() {
-    return this.bacteriasOP.length;
+    return this.bloquesT.length;
   }
-  getBacteria(id) {
-    return this.bacteriasOP[id];
+  getBloqueT(id) {
+    return this.bloquesT[id];
   }
 
   configNumerosMapaBacteria(drcNumerica, posNumero) {
@@ -91,7 +87,7 @@ class MapaBacteriaOp {
   }
 
   dibujar(graficos) {
-    for (let b of this.bacteriasOP) {
+    for (let b of this.bloquesT) {
       b.dibujar(graficos);
     }
   }

@@ -11,6 +11,14 @@ class Player extends Ente{
     this.imagen.onload = ()=>{
       this.imagen.cargado = true;
     }
+    this.getBacteria=()=>MAPA.getMapaBacteria().getBacteriaPosMapa(
+      this.registroMov.getX(),
+      this.registroMov.getY()
+    );
+    this.getBloqueT=()=>{
+      let bacteria = this.getBacteria();
+      return MAPA.mapaBacteria.getBloqueT(bacteria.idBloqueT);
+    }
     this.imagen.src = "recursos/jugador.png";
   }
 

@@ -18,7 +18,6 @@ class Dependiente extends Criatura{
 	}
 	getBacteria() {
 		if(this.mb.getBacteriaDestino()!=null) {
-            
 			return this.mb.getBacteriaDestino();
 		}
 		return super.getBacteria();

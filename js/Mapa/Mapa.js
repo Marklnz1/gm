@@ -1,4 +1,3 @@
-var tMatrizObjetos;
 class Mapa {
   movXinicial;
   movYinicial;
@@ -9,7 +8,7 @@ class Mapa {
   camaraMapa;
   gestorCriaturas;
   koro;
-  mapaBacteriaOP;
+  mapaTetris;
   matrizColisiones;
   constructor(datosTiled) {
     this.ancho = datosTiled.anchoMapa;
@@ -18,10 +17,7 @@ class Mapa {
     this.altoTile = this.alto/32;
     this.colisionesTile = datosTiled.colisiones;
     this.matrizColisiones = [];
-    let t0 = performance.now();
     this.configMatrizObjetos_Colisiones();
-    let t1 = performance.now();
-    tMatrizObjetos = t1-t0;
     this.hojaSprite = datosTiled.hojasSprites[0];
     this.imagenMapa = datosTiled.imagenMapa;
     this.tamTile = 32;
@@ -31,7 +27,8 @@ class Mapa {
 
     this.puntosEsquina = [];
 
-    this.mapaBacteria = new MapaBacteria(this, 2, 14, 1000000);
+    this.mapaBacteria = new MapaBacteria(this,1000000);
+
     //mapaBacteria.crearPuntosEsquina;
     this.registroMovCentral = JUGADOR.getRegistroMov();
     this.generadorSombra = new GeneradorSombra(this.registroMovCentral);
@@ -67,8 +64,7 @@ class Mapa {
   }
   configuracionFinal() {
     this.koro.mb.configurarBacteriaDestino();
-    this.mapaBacteriaOP = new MapaBacteriaOp(this);
-    this.capaParasitoOP = new CapaParasitoOP(this.mapaBacteriaOP,JUGADOR);
+    //this.capaParasitoOP = new CapaParasitoOP(this.mapaTetris,JUGADOR);
   }
   colisionaConCuadros(bacteria) {
     let colision = bacteria.getColision();
@@ -137,7 +133,7 @@ class Mapa {
     }
     this.camaraMapa.actualizar();
     JUGADOR.getCapaParasito().primeraVez = true;
-    this.capaParasitoOP.primeraVez = true;
+   // this.capaParasitoOP.primeraVez = true;
   }
 
   dibujar(graficos) {
@@ -192,6 +188,6 @@ class Mapa {
     return this.colisionesTile;
   }
   getMapaBacteriaOP(){
-    return this.mapaBacteriaOP;
+    return this.mapaTetris;
   }
 }

@@ -14,9 +14,6 @@ class Bacteria {
     this.xTile = xTile;
     this.yTile = yTile;
     this.id = mapaBacteria.idGlobal++;
-
-    this.mapaBacteria.getBacterias().push(this);
-    this.mapaBacteria.setBacteriaMatriz(xTile, yTile, this);
     this.tam = tam;
     this.colision = new Rectangulo(xTile * 32, yTile * 32, 32, 32);
     let xCentro = xTile * 32 + tam / 2 - 1;

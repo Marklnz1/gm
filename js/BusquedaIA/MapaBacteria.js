@@ -14,29 +14,25 @@ class MapaBacteria {
     this.mapa = mapa;
     this.limiteBacterias = limiteBacterias;
     this.bacteriasMapa = [];
+    this.matrizBacterias = [];
     let t0 = performance.now();
-    this.bacteriaCentral = new Bacteria(this, xTile, yTile, this.tamCuadro);
-    this.bacteriaCentral.expandirBacteria();
-    let t1 = performance.now();
-    tMetodo1 = t1-t0;
-    this.idGlobal=0;
-    this.bacteriasMapa = [];
-    t0 = performance.now();
     this.crearBacterias();
-    t1 = performance.now();
+    let t1 = performance.now();
     tMetodo2 = t1-t0;
 
     this.enlazarBacteriasMapa();
   }
   crearBacterias(){
-    let matrizObjetos = this.mapa.matrizObjetos;
+    let matrizColisiones = this.mapa.matrizColisiones;
     let anchoTile = this.mapa.getAnchoTile();
     let altoTile = this.mapa.getAltoTile();
+    let bCreada;
     for(let y = 0; y < altoTile;y++){
       for(let x = 0; x < anchoTile;x++){
-        if(matrizObjetos[x+y*anchoTile]!=null)continue;
-
-        this.bacteriasMapa.push(new Bacteria(this,x,y,32));
+        if(matrizColisiones[x+y*anchoTile]!=null)continue;
+        bCreada = new Bacteria(this,x,y,32);
+        this.bacteriasMapa.push(bCreada);
+        this.matrizBacterias[x+y*anchoTile] = bCreada;
       }
     }
   }
@@ -113,22 +109,13 @@ class MapaBacteria {
   }
 
   getBacteriaMatriz(xTile, yTile) {
-    return this.bacteriasTile[yTile * this.mapa.getAnchoTile() + xTile];
-  }
-  setBacteriaMatriz(xTile, yTile, bacteria) {
-    this.bacteriasTile[yTile * this.mapa.getAnchoTile() + xTile] = bacteria;
+    return this.matrizBacterias[yTile * this.mapa.getAnchoTile() + xTile];
   }
 
   getBacteriaPosMapa(posX, posY) {
     return this.getBacteriaMatriz(parseInt(posX / 32), parseInt(posY / 32));
   }
 
-  posibleNacimiento(xTile, yTile) {
-    return (
-      this.getBacteriaMatriz(xTile, yTile) == null &&
-      !this.mapa.colisionaC(xTile * 32, yTile * 32)
-    );
-  }
 
   dibujarColoniaBacteria(graficos) {
     for (let bacteriaMapa of this.bacteriasMapa) {

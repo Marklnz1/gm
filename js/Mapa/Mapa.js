@@ -10,14 +10,14 @@ class Mapa {
   gestorCriaturas;
   koro;
   mapaBacteriaOP;
-  matrizObjetos;
+  matrizColisiones;
   constructor(datosTiled) {
     this.ancho = datosTiled.anchoMapa;
     this.alto = datosTiled.altoMapa;
     this.anchoTile = this.ancho/32;
     this.altoTile = this.alto/32;
     this.colisionesTile = datosTiled.colisiones;
-    this.matrizObjetos = [];
+    this.matrizColisiones = [];
     let t0 = performance.now();
     this.configMatrizObjetos_Colisiones();
     let t1 = performance.now();
@@ -60,7 +60,7 @@ class Mapa {
       altoC = c.getAlto()/32;
       for(let y = 0; y < altoC;y++){
         for(let x = 0; x < anchoC; x++){
-          this.matrizObjetos[posXini+x+(posYini+y)*this.anchoTile] = 0;
+          this.matrizColisiones[posXini+x+(posYini+y)*this.anchoTile] = c;
         }
       }
     }

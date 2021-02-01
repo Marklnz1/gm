@@ -19,7 +19,6 @@ class Bacteria {
     let xCentro = xTile * 32 + tam / 2 - 1;
     let yCentro = yTile * 32 + tam / 2 - 1;
     this.posCentro = new Point(xCentro, yCentro);
-
   }
   dirVecinoInt(bacteria) {
     let bVecina;
@@ -63,31 +62,6 @@ class Bacteria {
   }
   getVecino(drcNumerica) {
     return this.vecinos[drcNumerica];
-  }
-
-  expandirBacteria() {
-    // if (this.id < this.mapaBacteria.limiteBacterias) {
-    const nuevasBacterias = this.getPosiblesBacterias();
-
-    for (let nuevaBacteria of nuevasBacterias) {
-      nuevaBacteria.expandirBacteria();
-    }
-    //}
-  }
-
-  getPosiblesBacterias() {
-    const posiblesBacterias = [];
-
-    for (let i = 0; i < 8; i += 2) {
-      let xTileN = this.xTile + Direccion.convertIntToPoint(i).getX();
-      let yTileN = this.yTile + Direccion.convertIntToPoint(i).getY();
-      if (this.mapaBacteria.posibleNacimiento(xTileN, yTileN)) {
-        let bNueva = new Bacteria(this.mapaBacteria, xTileN, yTileN, this.tam);
-        posiblesBacterias.push(bNueva);
-      }
-    }
-
-    return posiblesBacterias;
   }
   dibujar(graficos) {
     this.colision.dibujar(graficos, this.esEsquina ? "yellow" : "green");

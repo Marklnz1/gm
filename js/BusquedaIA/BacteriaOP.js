@@ -4,15 +4,43 @@ class BacteriaOP {
   mapaBacteriaOP;
   colision;
   posCentro;
-  constructor(mapaBacteriaOP,colision) {
+  bOrigen;
+  bFinal;
+  constructor(mapaBacteriaOP,datos) {
     this.mapaBacteriaOP = mapaBacteriaOP;
-    this.id = colision.id;
-    this.colision = colision;
-    let xCentro = this.getX()  + colision.getAncho() / 2 - 1;
-    let yCentro = this.getY()  + colision.getAlto() / 2 - 1;
+    this.id = datos.id;
+    this.bOrigen = datos.bOrigen;
+    this.bFinal = datos.bFinal;
+    this.crearColision();
+    let xCentro = this.getX()  + this.colision.getAncho() / 2 - 1;
+    let yCentro = this.getY()  + this.colision.getAlto() / 2 - 1;
     this.posCentro = new Point(xCentro,yCentro);
   }
+  configVecinos(){
+    let bVecina;
+    for(let i = 0; i<2;i++){
+        bVecina = this.bOrigen.getVecino(i*6);
+        if(bVecina!=null)
+        this.vecinos[i*6] = this.mapaBacteriaOP.getBacteria(bVecina.idOP);
+        
+    }
+    for(let i = 0; i<2;i++){
+        bVecina = this.bFinal.getVecino(2+i*2);
+        if(bVecina!=null)
+        this.vecinos[2+i*2] = this.mapaBacteriaOP.getBacteria(bVecina.idOP);
+    }
+   
+  }
+  crearColision(){
+    let posX = this.bOrigen.getXmapa();
+    let posY = this.bOrigen.getYmapa();
+    let ancho = this.bFinal.getXmapa() - posX + 32;
+    let alto = this.bFinal.getYmapa() - posY + 32;
+    this.colision = new Rectangulo(posX, posY, ancho, alto);
 
+    let color = "#" + random(10, 99) + random(10, 99) + random(10, 99) + "dd";
+    this.colision.color = color;
+  }
   dirVecinoInt(bacteriaOP) {
     let bVecina;
     for(let i = 0; i < 8;i++){
@@ -32,16 +60,12 @@ class BacteriaOP {
     }
     return contador;
   }
-  
-  addVecino(dir, bVecina) {
-    this.vecinos[dir] = bVecina;
-  }
   getVecino(dir) {
     return this.vecinos[dir];
   }
   dibujar(graficos) {
     this.colision.dibujar(graficos, this.colision.color);
-    dibujarTexto(""+this.id,this.getXcentro(), this.getYcentro(),graficos);
+    dibujarTexto(""+this.numVecinos(),this.getXcentro(), this.getYcentro(),graficos);
   }
 
   getAncho() {

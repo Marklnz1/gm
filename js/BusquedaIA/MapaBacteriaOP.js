@@ -2,26 +2,30 @@ var tMapaBacteriaOP;
 class MapaBacteriaOp {
   idGlobal = 0;
   bacteriasOP = [];
+  datosOP = [];
   constructor(mapa) {
     this.cuadros = [];
     this.altoTile = mapa.getAltoTile();
     this.anchoTile = mapa.getAnchoTile();
-    this.mapaBacteria = mapa.getMapaBacteria();
-    this.configNumerosMapaBacteria(2, 0);
+    this.mapaBacteria = mapa.getMapaBacteria();    
     this.configNumerosMapaBacteria(4, 1);
     let t0 = performance.now();
-    this.configurarCuadrosBacteriasOP2();
+    this.crearDatosOP();
     let t1 = performance.now();
     tMapaBacteriaOP = t1 - t0;
-
-    for (let i = 0; i < this.cuadros.length; i++) {
-      this.bacteriasOP[i] = new BacteriaOP(this, this.cuadros[i]);
-    }
-    this.enlazarBacteriasMapa();
+    this.crearBacteriasOP();
+    
   }
-  configurarCuadrosBacteriasOP2() {
+  crearBacteriasOP(){
+    for (let d of this.datosOP) {
+      this.bacteriasOP.push(new BacteriaOP(this,d));
+    }
+    for(let bop of this.bacteriasOP){
+      bop.configVecinos();
+    }
+  }
+  crearDatosOP() {
     let objColumna = [];
-    let objetos = [];
     let id = 0;
     let bacteria;
     for (let y = 0; y < this.altoTile; y++) {
@@ -42,7 +46,7 @@ class MapaBacteriaOp {
           ) {
             objColumna[x] = { id, bOrigen: bacteria };
             id++;
-            objetos.push(objColumna[x]);
+            this.datosOP.push(objColumna[x]);
           } else {
             objColumna[x] = objColumna[x - 1];
           }
@@ -50,19 +54,6 @@ class MapaBacteriaOp {
         objColumna[x].bFinal = bacteria;
         bacteria.idOP = objColumna[x].id;
       }
-    }
-    //====================CREANDO CUADROS=======================
-    for (let o of objetos) {
-      let posX = o.bOrigen.getXmapa();
-      let posY = o.bOrigen.getYmapa();
-      let ancho = o.bFinal.getXmapa() - posX + 32;
-      let alto = o.bFinal.getYmapa() - posY + 32;
-      let colision = new Rectangulo(posX, posY, ancho, alto);
-
-      let color = "#" + random(10, 99) + random(10, 99) + random(10, 99) + "dd";
-      colision.color = color;
-      colision.id = o.id;
-      this.cuadros.push(colision);
     }
   }
   numsEqual(objetoColumna, bacteria) {
@@ -78,45 +69,6 @@ class MapaBacteriaOp {
     return this.bacteriasOP[id];
   }
 
-  insertarIDdeBacteriaOp(bacteriaOP) {
-    let colision = bacteriaOP.getColision();
-    for (let y = 0; y < colision.getAlto() / 32; y++) {
-      for (let x = 0; x < colision.getAncho() / 32; x++) {
-        let bacteria = this.mapaBacteria.getBacteriaMatriz(
-          colision.getX() / 32 + x,
-          colision.getY() / 32 + y
-        );
-        bacteria.idOP = bacteriaOP.getID();
-      }
-    }
-  }
-  enlazarBacteriasMapa() {
-    let colision;
-    for (let bAnalizada of this.bacteriasOP) {
-      for (let i = 0; i < 8; i += 2) {
-        let pDir = Direccion.convertIntToPoint(i);
-        colision = bAnalizada.getColision();
-        let x = colision.getX() + pDir.getX() * 32;
-        let y = colision.getY() - pDir.getY() * 32;
-        colision.setLocation(x, y);
-        bAnalizada.addVecino(i, this.calcularVecinoColision(colision));
-        x = colision.getX() - pDir.getX() * 32;
-        y = colision.getY() + pDir.getY() * 32;
-        colision.setLocation(x, y);
-      }
-    }
-  }
-  calcularVecinoColision(colision) {
-    for (let b of this.bacteriasOP) {
-      if (
-        b.getColision().intersecta(colision) &&
-        b.getColision() !== colision
-      ) {
-        return b;
-      }
-    }
-    return null;
-  }
   configNumerosMapaBacteria(drcNumerica, posNumero) {
     const lista = [];
     let bMapa;
@@ -143,13 +95,5 @@ class MapaBacteriaOp {
       b.dibujar(graficos);
     }
   }
-  colisionaConCuadros(bMapa) {
-    let colision = bMapa.getColision();
-    for (let cd of this.cuadros) {
-      if (cd.intersecta(colision)) {
-        return true;
-      }
-    }
-    return false;
-  }
+ 
 }

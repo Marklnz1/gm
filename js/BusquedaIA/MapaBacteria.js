@@ -1,4 +1,4 @@
-var tMetodo1,tMetodo2;
+var tMetodo1, tMetodo2;
 class MapaBacteria {
   bacteriaCentral;
   bacteriasMapa;
@@ -15,26 +15,43 @@ class MapaBacteria {
     this.limiteBacterias = limiteBacterias;
     this.bacteriasMapa = [];
     this.matrizBacterias = [];
-    let t0 = performance.now();
     this.crearBacterias();
-    let t1 = performance.now();
-    tMetodo2 = t1-t0;
 
+    let t0 = performance.now();
     this.enlazarBacteriasMapa();
+    let t1 = performance.now();
+    tMetodo1 = t1-t0;
+    t0 = performance.now();
+    this.enlazarBacteriasMapa2();
+    t1 = performance.now();
+    tMetodo2 = t1-t0;
   }
-  crearBacterias(){
+  crearBacterias() {
     let matrizColisiones = this.mapa.matrizColisiones;
     let anchoTile = this.mapa.getAnchoTile();
     let altoTile = this.mapa.getAltoTile();
     let bCreada;
-    for(let y = 0; y < altoTile;y++){
-      for(let x = 0; x < anchoTile;x++){
-        if(matrizColisiones[x+y*anchoTile]!=null)continue;
-        bCreada = new Bacteria(this,x,y,32);
-        this.bacteriasMapa.push(bCreada);
-        this.matrizBacterias[x+y*anchoTile] = bCreada;
+    let lista = [];
+    for (let y = 0; y < altoTile; y++) {
+      for (let x = 0; x < anchoTile; x++) {
+        if (matrizColisiones[x + y * anchoTile] != null) {
+          if (lista.length != 0) {
+            for (let b of lista) b.numeros[0] = lista.length;
+            lista.length = 0;
+          }
+          
+          continue;
+        }
+        bCreada = this.insertarBacteria(x,y);
+        lista.push(bCreada);
       }
     }
+  }
+  insertarBacteria(x,y){
+    let bCreada = new Bacteria(this, x, y, 32);
+    this.bacteriasMapa.push(bCreada);
+    this.matrizBacterias[x + y * this.mapa.getAnchoTile()] = bCreada;
+    return bCreada;
   }
   crearCapaParasito(criatura) {
     let capaParasitoCreada = new CapaParasito(this, criatura);
@@ -62,13 +79,36 @@ class MapaBacteria {
           bAnalizada.addVecino(i, bVecina);
         }
       }
-      if (
-        bAnalizada.numVecinos() != 8 &&
-        bAnalizada.numVecinosCruz() != 3
-      ) {
+      if (bAnalizada.numVecinos() != 8 && bAnalizada.numVecinosCruz() != 3) {
         bAnalizada.esEsquina = true;
         let puntoEsquina = new PuntoEsquinaRY(bAnalizada);
         this.mapa.puntosEsquina.push(puntoEsquina);
+      }
+    }
+  }
+  enlazarBacteriasMapa2(){
+    let anchoTile = this.mapa.getAnchoTile();
+    let altoTile = this.mapa.getAltoTile();
+    let lista = [];
+    let bAnalizada;
+    for (let x = 0; x < altoTile; x++) {
+      for (let y = 0; y < anchoTile; y++) {
+        bAnalizada = this.getBacteriaMatriz(x,y);
+        if(bAnalizada==null) continue;
+        bAnalizada.addVecino(0,this.getBacteriaMatriz(x,y-1));
+        bAnalizada.addVecino(1,this.getBacteriaMatriz(x+1,y-1));
+        bAnalizada.addVecino(2,this.getBacteriaMatriz(x+1,y));
+        bAnalizada.addVecino(3,this.getBacteriaMatriz(x+1,y+1));
+        bAnalizada.addVecino(4,this.getBacteriaMatriz(x,y+1));
+        bAnalizada.addVecino(5,this.getBacteriaMatriz(x-1,y+1));
+        bAnalizada.addVecino(6,this.getBacteriaMatriz(x-1,y));
+        bAnalizada.addVecino(7,this.getBacteriaMatriz(x-1,y-1));
+
+        if (bAnalizada.numVecinos() != 8 && bAnalizada.numVecinosCruz() != 3) {
+          bAnalizada.esEsquina = true;
+          let puntoEsquina = new PuntoEsquinaRY(bAnalizada);
+          this.mapa.puntosEsquina.push(puntoEsquina);
+        }
       }
     }
   }
@@ -115,7 +155,6 @@ class MapaBacteria {
   getBacteriaPosMapa(posX, posY) {
     return this.getBacteriaMatriz(parseInt(posX / 32), parseInt(posY / 32));
   }
-
 
   dibujarColoniaBacteria(graficos) {
     for (let bacteriaMapa of this.bacteriasMapa) {

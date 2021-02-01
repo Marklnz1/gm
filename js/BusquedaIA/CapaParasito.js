@@ -4,11 +4,11 @@ class CapaParasito {
 	parasitos;
 	mapaBacteria;
 	primeraVez = true;
-	constructor(getOrigen,listaHuesped) {
+	constructor(criatura,listaHuesped) {
 		this.huespedesParaExpandir = [];		
 		this.parasitos = [];
 		this.primeraVez = true;
-		this.getOrigen = getOrigen;
+		this.criatura = criatura;
 		for(let i = 0; i < listaHuesped.length; i++) {
 			this.parasitos[i] = new Parasito(this,listaHuesped[i]);
 		}
@@ -66,7 +66,7 @@ class CapaParasito {
 		}
 	}
 	actualizar() {
-		let huespedOrigen = this.getOrigen();
+		let huespedOrigen = this.criatura.getBacteria().bloqueT;
 		if(huespedOrigen == null) {
 			return;
 		}

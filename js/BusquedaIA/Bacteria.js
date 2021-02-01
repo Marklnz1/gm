@@ -20,6 +20,9 @@ class Bacteria {
     let yCentro = yTile * 32 + tam / 2 - 1;
     this.posCentro = new Point(xCentro, yCentro);
   }
+  insertarBloqueT(){
+    this.bloqueT = this.mapaBacteria.getBloqueT(this.idBloqueT);
+  }
   dirVecinoInt(bacteria) {
     let bVecina;
     for(let i = 0; i < 8;i++){

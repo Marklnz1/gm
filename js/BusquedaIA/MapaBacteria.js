@@ -17,6 +17,9 @@ class MapaBacteria {
     this.crearBacterias();
     this.enlazarBacteriasMapa();
     this.mapaTetris = new MapaTetris(this);
+    for(let b of this.bacteriasMapa){
+      b.insertarBloqueT();
+    }
 
   }
   crearBacterias() {
@@ -47,7 +50,7 @@ class MapaBacteria {
     return bCreada;
   }
   crearCapaParasito(criatura) {
-    let capaParasitoCreada = new CapaParasito(criatura.getBloqueT, this.mapaTetris.bloquesT);
+    let capaParasitoCreada = new CapaParasito(criatura, this.mapaTetris.bloquesT);
     this.capasParasito.push(capaParasitoCreada);
     return capaParasitoCreada;
   }

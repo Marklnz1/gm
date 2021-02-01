@@ -25,19 +25,17 @@ class Criatura extends Ente {
     this.temporizador.setTiempoMaximo(180);
 
     this.vidaMax = this.vidaActual = 999;
-    this.getBacteria=()=>MAPA.getMapaBacteria().getBacteriaPosMapa(
-      this.registroMov.getX(),
-      this.registroMov.getY()
-    );
-    this.getBloqueT=()=>{
-      let bacteria =this.getBacteria();
-      return MAPA.mapaBacteria.getBloqueT(bacteria.idBloqueT);
-    }
+    
+  }
+  getBacteria(){
+    return MAPA.getMapaBacteria().getBacteriaPosMapa(
+    this.registroMov.getX(),
+    this.registroMov.getY());
   }
   getPeso() {
     if (this.objetivo == null) this.calcularObjetivo();
 
-    return this.objetivo.getCapaParasito().getPeso(this.getBloqueT());
+    return this.objetivo.getCapaParasito().getPeso(this.getBacteria().bloqueT);
   }
   getCapaParasitoObjetivo(){
     if (this.objetivo == null) this.calcularObjetivo();

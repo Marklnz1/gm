@@ -11,12 +11,14 @@ class BuscadorRuta {
     this.tmpCambiarDir.actualizar();
   }
   calcularNuevaRuta(bAnterior){
-    if(this.criatura.getBloqueT()===this.criatura.objetivo.getBloqueT()&&this.criatura.getBacteria()!=this.criatura.objetivo.getBacteria()){
-      let dir_bacteriaX = Math.sign(this.criatura.objetivo.getBacteria().getXmapa()-this.criatura.getBacteria().getXmapa());
-      let bacteriaX = this.criatura.getBacteria().getVecino( Direccion.convertPointToInt(dir_bacteriaX,0) );
+    let bObjetivo = this.criatura.objetivo.getBacteria();
+    let bCriatura = this.criatura.getBacteria();
+    if(bCriatura.bloqueT===bObjetivo.bloqueT){
+      let dir_bacteriaX = Math.sign(bObjetivo.getXmapa()-bCriatura.getXmapa());
+      let bacteriaX = bCriatura.getVecino( Direccion.convertPointToInt(dir_bacteriaX,0) );
 
-      let dir_bacteriaY = Math.sign(this.criatura.objetivo.getBacteria().getYmapa()-this.criatura.getBacteria().getYmapa());
-      let bacteriaY = this.criatura.getBacteria().getVecino( Direccion.convertPointToInt(0,dir_bacteriaY) );
+      let dir_bacteriaY = Math.sign(bObjetivo.getYmapa()-bCriatura.getYmapa());
+      let bacteriaY = bCriatura.getVecino( Direccion.convertPointToInt(0,dir_bacteriaY) );
 
       if(bacteriaX!=null) return bacteriaX;
       
@@ -24,7 +26,7 @@ class BuscadorRuta {
     }
     let proxPeso = this.criatura.getPeso() + (this.alejarse ? 1 : -1);
     let capaDeObjetivo = this.criatura.getCapaParasitoObjetivo();
-    let bqActual = this.criatura.getBloqueT();
+    let bqActual = bCriatura.bloqueT;
     for(let i = 0; i < 8; i+=2){
       let bqVecino = bqActual.getVecino(i);
       if(bqVecino==null) continue;
@@ -36,12 +38,9 @@ class BuscadorRuta {
     
   }
   existeUnaProximaRuta() {
-    if(this.criatura.getBloqueT()===this.criatura.objetivo.getBloqueT()&&this.criatura.getBacteria()!=this.criatura.objetivo.getBacteria()){
-      return true;
-    }
-
-     let proxPeso = this.criatura.getPeso() + (this.alejarse ? 1 : -1);
-     return proxPeso>0;
+    let bCriatura = this.criatura.getBacteria();
+    let bObjetivo = this.criatura.objetivo.getBacteria();
+    return bCriatura.bloqueT!==bObjetivo.bloqueT||bCriatura!==bObjetivo;
 
    }
   calcularNuevaRuta2(bAnterior) {

@@ -15,10 +15,6 @@ class Player extends Ente{
       this.registroMov.getX(),
       this.registroMov.getY()
     );
-    this.getBloqueT=()=>{
-      let bacteria = this.getBacteria();
-      return MAPA.mapaBacteria.getBloqueT(bacteria.idBloqueT);
-    }
     this.imagen.src = "recursos/jugador.png";
   }
 

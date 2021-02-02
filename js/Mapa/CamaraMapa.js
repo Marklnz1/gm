@@ -127,8 +127,6 @@ class CamaraMapa {
     for (let od of this.objetosDibujo) {
       od.dibujar(this.preGraficos);
     }
-    this.mapa.koro.dibujar(this.preGraficos);
-
     for (let c of this.mapa.getColisionesTile()) {
       c.dibujarContorno(this.preGraficos, "red");
     }

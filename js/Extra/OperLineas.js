@@ -46,7 +46,3 @@ function calcularVectUnitarioP(vect, punto1, punto2) {
     punto2.getY()
   );
 }
-
-function generarNumRD(min, max) {
-  return parseInt(min + Math.random() * (max - min));
-}

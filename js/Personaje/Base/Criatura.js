@@ -186,7 +186,6 @@ class Criatura extends Ente {
     if (this.transActual.getImagenActual() == null) {
       return;
     }
-
     // graficos.drawStringMapa("Vida : "+this.vidaActual, registroMov.getX()-30, registroMov.getY()-50+ajustePosYimagen, Color.WHITE);
     let posX = parseInt(
       this.registroMov.getX() -

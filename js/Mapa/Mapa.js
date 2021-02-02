@@ -10,6 +10,7 @@ class Mapa {
   koro;
   mapaTetris;
   matrizColisiones;
+  enemigos = [];
   constructor(datosTiled) {
     this.ancho = datosTiled.anchoMapa;
     this.alto = datosTiled.altoMapa;
@@ -40,10 +41,13 @@ class Mapa {
       this.lineasSombra.push(...this.crearLineasDeRectangulo(colision));
     }
     JUGADOR.setCapaParasito(this.mapaBacteria.crearCapaParasito(JUGADOR));
-    this.koro = new KR_NJ();
-    this.koro.setPosMapa(208, 378);
-    this.contador = 0;
-    this.cuadros = [];
+  }
+  addEnemigo(id,posX,posY){
+    let enemigo = crearEnemigo(id);
+    enemigo.setPosMapa(posX,posY);
+    enemigo.mb.configurarBacteriaDestino();
+    this.objetosDibujo.push(enemigo);
+    this.enemigos.push(enemigo);
   }
   configMatrizObjetos_Colisiones(){
     let anchoC;
@@ -63,18 +67,12 @@ class Mapa {
     }
   }
   configuracionFinal() {
-    this.koro.mb.configurarBacteriaDestino();
-    //this.capaParasitoOP = new CapaParasitoOP(this.mapaTetris,JUGADOR);
-  }
-  colisionaConCuadros(bacteria) {
-    let colision = bacteria.getColision();
-    for (let cd of this.cuadros) {
-      if (cd.intersecta(colision)) {
-        return true;
-      }
+    for(let i = 0; i < 1 ; i++){
+      this.addEnemigo(1,208,378);
+
     }
-    return false;
   }
+
   //==========================================================
   crearLineasDeRectangulo(r) {
     let linea1 = new Linea(
@@ -126,10 +124,9 @@ class Mapa {
   }
   actualizar() {
     JUGADOR.actualizar();
-    //this.contador++;
-    if (this.contador < 4) {
-      this.koro.actualizar();
-      this.koro.actualizarImagenActual();
+    for(let e of this.enemigos){
+      e.actualizar();
+      e.actualizarImagenActual();
     }
     this.camaraMapa.actualizar();
     JUGADOR.getCapaParasito().primeraVez = true;

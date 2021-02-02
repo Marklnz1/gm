@@ -203,7 +203,6 @@ class TransPersonaje{
 	getImagenActual() {
 		
 		if(this.estadoMuerteActivo()) {
-
 			return this.estadoMuerte.getImagenActual();
 		}else if(this.transicionEnProceso()) {
 			return this.transicionActual.getImagenActual();

@@ -9,7 +9,7 @@ class Transformacion1KR extends TransPersonaje{
 		
 		let estadoMoviendose = new EstadoJugador("Moviendose","basico", koro, condiciones.movimientoActivo);
 		estadoMoviendose.addAnimador(getAnimacion("KR_transformacion1_moviendose"));
-		estadoMoviendose.setVelocidad(3);
+		estadoMoviendose.setVelocidad(5);
 		this.addEstado(estadoMoviendose);		
 	}
 

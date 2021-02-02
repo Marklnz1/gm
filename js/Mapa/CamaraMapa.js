@@ -51,6 +51,7 @@ class CamaraMapa {
     graficos.translate(this.getXdes(), this.getYdes());
     if (isMobile()) {
       this.recortarGraficosCirculo(graficos);
+      this.generadorSombra.recortarGraficos(graficos);
     } else {
       this.recortarGraficosCirculo(graficos);
        this.generadorSombra.recortarGraficos(graficos);

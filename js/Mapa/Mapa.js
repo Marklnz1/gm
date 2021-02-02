@@ -67,7 +67,7 @@ class Mapa {
     }
   }
   configuracionFinal() {
-    for(let i = 0; i < 1 ; i++){
+    for(let i = 0; i < 50 ; i++){
       this.addEnemigo(1,208,378);
 
     }

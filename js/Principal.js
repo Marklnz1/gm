@@ -1,5 +1,5 @@
 var canvas;
-var FPS = 400;
+var FPS = 600;
 var contadorFPS = 0;
 var FPSactuales = 40;
 var JUGADOR;

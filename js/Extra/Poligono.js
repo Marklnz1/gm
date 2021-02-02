@@ -23,7 +23,6 @@ class Poligono{
         for(let i = 1; i < this.length;i++){
             graficos.lineTo(this.puntos[i].getX(),this.puntos[i].getY());
         }
-        graficos.closePath();
         graficos.clip();
     }
     get getPuntos(){

@@ -32,15 +32,16 @@ class CamaraMapa {
   }
 
   recortarGraficosCirculo(graficos) {
-    graficos.clip();
     graficos.beginPath();
     graficos.arc(
       this.registroMovCentral.getX(),
       this.registroMovCentral.getY(),
-      150,
+      400,
       0,
       2 * Math.PI
     );
+    graficos.clip();
+
   }
   dibujar(graficos) {
     this.dibujarPreImagenFinal();
@@ -51,8 +52,9 @@ class CamaraMapa {
     if (isMobile()) {
       this.recortarGraficosCirculo(graficos);
     } else {
+      this.recortarGraficosCirculo(graficos);
        this.generadorSombra.recortarGraficos(graficos);
-    }
+     }
     //========================================================
     
 

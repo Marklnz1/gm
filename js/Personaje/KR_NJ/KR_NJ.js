@@ -23,7 +23,6 @@ class KR_NJ extends Dependiente {
     super.actualizar();
     //		System.out.println(transActual.getEstadoActual().getNombre());
     this.posXanterior = this.registroMov.getX;
-	this.posYanterior = this.registroMov.getY;
-	
+    this.posYanterior = this.registroMov.getY;
   }
 }

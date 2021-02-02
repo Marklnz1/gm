@@ -6,22 +6,10 @@ class EstadoJugador {
   velocidad = 0;
   cdActivacion;
   tmpDescanso;
-  temporizadorGeneral = new Temporizador();
-  bloquearEstado = false;
+  bloqueado = false;
   tipo;
-  estadoActivo = false;
-  cdPermanencia;
   imagenActual;
-  aceptaImpulso = true;
-
-  constructor(
-    nombre,
-    tipo,
-    criatura,
-    cdActivacion,
-    tiempoDescanso = 0,
-    cdPermanencia
-  ) {
+  constructor(nombre, tipo, criatura, cdActivacion, tiempoDescanso = 0) {
     this.nombre = nombre;
     this.tipo = tipo;
     this.criatura = criatura;
@@ -29,30 +17,15 @@ class EstadoJugador {
     this.tmpDescanso = new Temporizador();
     this.tmpDescanso.setTiempoMaximo(tiempoDescanso);
     this.tmpDescanso.setContador(this.tmpDescanso.getTiempoMaximo());
-    this.cdPermanencia = cdPermanencia;
   }
-  getTemporizadorGeneral() {
-    return this.temporizadorGeneral;
+  bloquear(){
+    this.bloqueado = true;
+  }
+  desbloquear(){
+    this.bloqueado = false;
   }
   estadoBloqueado() {
-    if (this.temporizadorGeneral.estaConfigurado()) {
-      if (this.cdPermanencia != null) {
-        return (
-          !this.temporizadorGeneral.tiempoCumplido() &&
-          this.cdPermanencia.cumple()
-        );
-      } else {
-        return !this.temporizadorGeneral.tiempoCumplido();
-      }
-    } else {
-      return this.cdPermanencia != null && this.cdPermanencia.cumple();
-    }
-  }
-  configTemporizador(tiempoMax) {
-    this.temporizadorGeneral.setTiempoMaximo(tiempoMax);
-  }
-  actualizar() {
-    this.temporizadorGeneral.actualizar();
+    return this.bloqueado;
   }
   cumpleCondicionActivacion() {
     return this.cdActivacion() && this.tmpDescanso.tiempoCumplido();
@@ -78,22 +51,22 @@ class EstadoJugador {
   getNombre() {
     return this.nombre;
   }
-
+  actualizar(){
+    
+  }
   accionInicial() {
     this.criatura.setVelocidadActual(this.velocidad);
     this.criatura.setReduccionVelocidad(0);
     this.tmpDescanso.reiniciar();
-    this.temporizadorGeneral.reiniciar();
-    this.estadoActivo = true;
+    this.bloqueado = false;
   }
   accionFinal() {
-    this.estadoActivo = false;
   }
   getAnimadorActual() {
     return this.animadorActual;
   }
-  getImagenActual(){
-	  return this.imagenActual;
+  getImagenActual() {
+    return this.imagenActual;
   }
   getTemporizadorDescanso() {
     return this.tmpDescanso;

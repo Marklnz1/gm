@@ -10,7 +10,6 @@ class MecanismoMovimiento {
   caminoBacteria;
   contadorCamino = 0;
   buscadorRuta;
-  tmpHuirYa = new Temporizador(60);
   constructor(dependiente) {
     this.criatura = dependiente;
     this.buscadorRuta = new BuscadorRuta(dependiente);
@@ -162,5 +161,8 @@ class MecanismoMovimiento {
   }
   getPosDestino() {
     return this.bacteriaDestino.getPosCentro();
+  }
+  getBuscadorRuta(){
+    return this.buscadorRuta;
   }
 }

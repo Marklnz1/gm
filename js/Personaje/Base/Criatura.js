@@ -215,9 +215,6 @@ class Criatura extends Ente {
   getYorden() {
     return parseInt(this.registroMov.getY());
   }
-  estaHuyendo() {
-    return false;
-  }
   getBacteria() {
     return MAPA.getMapaBacteria().getBacteriaPosMapa(
       this.registroMov.getX(),

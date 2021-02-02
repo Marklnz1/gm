@@ -50,7 +50,6 @@ class TransPersonaje{
 	getEstadoNormalActivo() {
 		
 		let estado = this.gestorDeDefensas.getEstadoNormalActivo();
-		
 		if(estado!=null) {
 			return estado;
 		}

@@ -1,9 +1,10 @@
 class CondicionesKoroNJ {
-	kr_nj;
-	constructor(koroNJ) {
-        this.kr_nj = koroNJ;
-        this.movimientoActivo = ()=>this.kr_nj.mb.posibleMovimiento();
-        this.movimientoInactivo = ()=>!this.kr_nj.mb.posibleMovimiento();
-	}
-
+  kr;
+  constructor(kr) {
+    this.kr = kr;
+    this.movimientoActivo = () => this.kr.mb.posibleMovimiento();
+    this.movimientoInactivo = () => !this.kr.mb.posibleMovimiento();
+    this.huir = () =>
+      !kr.estaHuyendo() && kr.getBacteria() === kr.objetivo.getBacteria();
+  }
 }

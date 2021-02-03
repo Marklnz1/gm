@@ -14,8 +14,8 @@ class Mapa {
   constructor(datosTiled) {
     this.ancho = datosTiled.anchoMapa;
     this.alto = datosTiled.altoMapa;
-    this.anchoTile = this.ancho/32;
-    this.altoTile = this.alto/32;
+    this.anchoTile = this.ancho / 32;
+    this.altoTile = this.alto / 32;
     this.colisionesTile = datosTiled.colisiones;
     this.matrizColisiones = [];
     this.configMatrizObjetos_Colisiones();
@@ -28,7 +28,7 @@ class Mapa {
 
     this.puntosEsquina = [];
 
-    this.mapaBacteria = new MapaBacteria(this,1000000);
+    this.mapaBacteria = new MapaBacteria(this, 1000000);
 
     //mapaBacteria.crearPuntosEsquina;
     this.registroMovCentral = JUGADOR.getRegistroMov();
@@ -42,37 +42,35 @@ class Mapa {
     }
     JUGADOR.setCapaParasito(this.mapaBacteria.crearCapaParasito(JUGADOR));
   }
-  addEnemigo(id,posX,posY){
+  addEnemigo(id, posX, posY) {
     let enemigo = crearEnemigo(id);
-    enemigo.setPosMapa(posX,posY);
+    enemigo.setPosMapa(posX, posY);
     enemigo.mb.configurarBacteriaDestino();
     this.objetosDibujo.push(enemigo);
     this.enemigos.push(enemigo);
   }
-  configMatrizObjetos_Colisiones(){
+  configMatrizObjetos_Colisiones() {
     let anchoC;
     let altoC;
     let posXini;
     let posYini;
-    for(let c of this.colisionesTile){
-      posXini = c.getX()/32;
-      posYini = c.getY()/32;
-      anchoC = c.getAncho()/32;
-      altoC = c.getAlto()/32;
-      for(let y = 0; y < altoC;y++){
-        for(let x = 0; x < anchoC; x++){
-          this.matrizColisiones[posXini+x+(posYini+y)*this.anchoTile] = c;
+    for (let c of this.colisionesTile) {
+      posXini = c.getX() / 32;
+      posYini = c.getY() / 32;
+      anchoC = c.getAncho() / 32;
+      altoC = c.getAlto() / 32;
+      for (let y = 0; y < altoC; y++) {
+        for (let x = 0; x < anchoC; x++) {
+          this.matrizColisiones[
+            posXini + x + (posYini + y) * this.anchoTile
+          ] = c;
         }
       }
     }
   }
   configuracionFinal() {
-    this.addEnemigo(1,208,378);
+    this.addEnemigo(1, 208, 378);
 
-    for(let i = 0; i < 10 ; i++){
-      this.addEnemigo(2,208,378);
-
-    }
   }
 
   //==========================================================
@@ -127,7 +125,7 @@ class Mapa {
   actualizar() {
     JUGADOR.actualizar();
     JUGADOR.actualizarImagenActual();
-    for(let e of this.enemigos){
+    for (let e of this.enemigos) {
       e.actualizar();
       e.actualizarImagenActual();
     }
@@ -147,6 +145,8 @@ class Mapa {
         r.dibujar(graficos,"blue");
       }
     }*/
+   
+
   }
   getAncho() {
     return this.ancho;
@@ -161,34 +161,34 @@ class Mapa {
   getAltoTile() {
     return this.altoTile;
   }
-  getGeneradorSombra(){
+  getGeneradorSombra() {
     return this.generadorSombra;
   }
-  getObjetosDibujo(){
+  getObjetosDibujo() {
     return this.objetosDibujo;
   }
-  getPuntosEsquina(){
+  getPuntosEsquina() {
     return this.puntosEsquina;
   }
-  getEnemigos(){
+  getEnemigos() {
     return this.enemigos;
   }
-  getObjetosOrdenables(){
+  getObjetosOrdenables() {
     return this.objetosOrdenables;
   }
-  getCriaturas(){
+  getCriaturas() {
     return this.criaturas;
   }
-  getMapaBacteria(){
+  getMapaBacteria() {
     return this.mapaBacteria;
   }
-  getLineasSombra(){
+  getLineasSombra() {
     return this.lineasSombra;
   }
-  getColisionesTile(){
+  getColisionesTile() {
     return this.colisionesTile;
   }
-  getMapaBacteriaOP(){
+  getMapaBacteriaOP() {
     return this.mapaTetris;
   }
 }

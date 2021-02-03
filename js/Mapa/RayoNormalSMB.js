@@ -1,3 +1,4 @@
+var tLineas;
 class RayoNormalSMB {
   lineaRayo = new Linea();
   puntaRayoHorizontal = new Point();
@@ -28,7 +29,11 @@ class RayoNormalSMB {
       this.angulo
     );
     this.actualizarLineaRayo(puntaRayo);
+    
+    let t0 = performance.now();
     puntaRayo = this.calcularColisionConLineas();
+    let t1 = performance.now();
+      tLineas = t1-t0;
     this.actualizarLineaRayo(puntaRayo);
     this.semiModulo = getSemiModuloPP(
       this.registroMovOrigen,

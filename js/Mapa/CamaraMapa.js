@@ -8,7 +8,8 @@ class CamaraMapa {
   generadorSombra;
   objetosDibujo;
   puntosEsquina;
- 
+  radio = 200;
+  colorSombra = "#000b"
   constructor(mapa, registroMovCentral) {
     this.mapa = mapa;
     this.cvPreImagenFinal = document.createElement("canvas");
@@ -37,12 +38,41 @@ class CamaraMapa {
     graficos.arc(
       this.registroMovCentral.getX(),
       this.registroMovCentral.getY(),
-      150,
+      this.radio,
       0,
       2 * Math.PI
     );
     graficos.clip();
 
+  }
+  rellenarGraficosCirculo(graficos){
+      // Radii of the white glow.
+    let  innerRadius = 5,
+      outerRadius = 100;
+      let posX = this.registroMovCentral.getX();
+      let posY = this.registroMovCentral.getY();
+      // Radius of the entire circle.
+    let gradient = graficos.createRadialGradient(
+      this.traducirX(posX),
+      this.traducirY(posY),
+      0,
+      this.traducirX(posX),
+      this.traducirY(posY),
+      this.radio
+    );
+    gradient.addColorStop(0, "#0002");
+    gradient.addColorStop(1, this.colorSombra);
+    graficos.beginPath();
+    graficos.arc(
+      this.traducirX(posX),
+      this.traducirY(posY),
+      this.radio,
+      0,
+      2 * Math.PI
+    );
+    
+    graficos.fillStyle = gradient;
+    graficos.fill();
   }
   dibujar(graficos) {
     this.dibujarPreImagenFinal();
@@ -51,9 +81,11 @@ class CamaraMapa {
     graficos.save();
     graficos.translate(this.getXdes(), this.getYdes());
     if (isMobile()) {
-      this.recortarGraficosCirculo(graficos);
+      //this.recortarGraficosCirculo(graficos);
+      this.generadorSombra.recortarGraficos(graficos);
+
     } else {
-      this.recortarGraficosCirculo(graficos);
+      //this.recortarGraficosCirculo(graficos);
        this.generadorSombra.recortarGraficos(graficos);
      }
     //========================================================
@@ -108,10 +140,9 @@ class CamaraMapa {
     //========================================================
     //this.rectangulo.setLocation(this.mapa.koro.registroMov.getX(),this.mapa.koro.registroMov.getY());
     //this.rectangulo.dibujar(graficos,"magenta");
-    
     graficos.resetTransform();
     graficos.drawImage(this.cvPreImagenFinal, 0, 0);
-    
+    //this.rellenarGraficosCirculo(graficos);
     graficos.restore();
   }
   dibujarPreImagenFinal() {
@@ -138,10 +169,17 @@ class CamaraMapa {
     this.preGraficos.resetTransform();
   }
   dibujarCuadroSombra(graficos) {
-    graficos.fillStyle = "#0007";
+    //graficos.fillStyle = "#0007";
+    graficos.fillStyle = this.colorSombra;
+
     graficos.fillRect(0, 0, canvas.width, canvas.height);
   }
-
+  traducirX(posX){
+    return posX+this.getXdes();
+  }
+  traducirY(posY){
+    return posY+this.getYdes();
+  }
   getXdes() {
     return this.registroMovCamara.getX();
   }

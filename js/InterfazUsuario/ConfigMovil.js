@@ -52,7 +52,7 @@ class ConfigMovil {
       graficos
     );
 
-
+      dibujarTexto("tLineas : "+tLineas,10,130,graficos);
   }
   
   //================================================================================

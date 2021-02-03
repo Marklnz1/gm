@@ -2,7 +2,7 @@ class Ente {
   velocidadActual;
   constructor(anchoCuadroColision, altoCuadroColision) {
     this.registroMov = new Point();
-    this.direccion = 0;
+    this.direccion = 2;
     this.ultimaDireccion = this.direccion;
     this.colision = new Rectangulo(
       parseInt(anchoCuadroColision / 2) * 2 + 1,

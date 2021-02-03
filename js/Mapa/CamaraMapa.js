@@ -37,7 +37,7 @@ class CamaraMapa {
     graficos.arc(
       this.registroMovCentral.getX(),
       this.registroMovCentral.getY(),
-      400,
+      150,
       0,
       2 * Math.PI
     );

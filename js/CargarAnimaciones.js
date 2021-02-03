@@ -1,15 +1,17 @@
 var animaciones = new Map();
 function getAnimacion(nombre) {
-    return animaciones.get(nombre);
+    return animaciones.get(nombre).clonar();
 }
 
 function cargarAnimaciones() {
   let animacion = new Animador(getHojaSprites("Jugador"), 7);
   animacion.setAnimacion(2, [1, 2, 3, 4]);
-  animacion.setAnimacion(6, [5, 6, 7, 8]);
-  animacion.setAnimacion(0, [1, 2, 3, 4]);
-  animacion.setAnimacion(4, [1, 2, 3, 4]);
+  animacion.setAnimacion(6, [6, 7, 8, 9]);
   animaciones.set("JG_MOV", animacion);
+  animacion = new Animador(getHojaSprites("Jugador"), 7);
+  animacion.setAnimacion(2, [0]);
+  animacion.setAnimacion(6, [5]);
+  animaciones.set("JG_Quieto", animacion);
   //=========ANIMACIONES KORO ===========================
   let transformacion1_quieto = new Animador(getHojaSprites("KR_hjBasico"), 12);
   transformacion1_quieto.setAnimacion(2, [2]);

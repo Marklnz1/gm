@@ -20,12 +20,19 @@ class Criatura extends Ente {
   temporizador = new Temporizador();
   esDifunto = false;
   ataquesRecibidosTemporal = [];
+  ultimaDireccionImagen;
+  direccionImagen;
+  dirImagenBloqueadas = [];
   constructor(anchoCuadroColision, altoCuadroColision, id) {
     super(anchoCuadroColision, altoCuadroColision, id);
     this.temporizador.setTiempoMaximo(180);
 
     this.vidaMax = this.vidaActual = 999;
+    this.direccionImagen = this.ultimaDireccionImagen = this.direccion;
     
+  }
+  bloquearDirImagen(direcciones){
+    this.dirImagenBloqueadas = direcciones;
   }
   getBacteria(){
     return MAPA.getMapaBacteria().getBacteriaPosMapa(
@@ -125,12 +132,20 @@ class Criatura extends Ente {
     }
     this.transActual.getEstadoActual().actualizar();
     this.actualizarMov();
+    for(let dirBloqueada of this.dirImagenBloqueadas){
+      if(dirBloqueada==this.direccion){
+        this.direccionImagen = this.ultimaDireccionImagen;
+        return;
+      }
+    }
+    this.ultimaDireccionImagen = this.direccionImagen;
+    this.direccionImagen = this.direccion;
   }
   addTransformacion(transformacion) {
-    this.transformaciones.add(transformacion);
+    this.transformaciones.push(transformacion);
     if (this.transformaciones.length == 1) {
       this.transActual = transformacion;
-      this.transformacion.accionInicial();
+      this.transActual.accionInicial();
     }
   }
   actualizarImagenActual() {
@@ -183,9 +198,11 @@ class Criatura extends Ente {
   //=========================================================================================
 
   dibujar(graficos) {
+    
     if (this.transActual.getImagenActual() == null) {
       return;
     }
+    this.colision.dibujar(graficos,"red");
     // graficos.drawStringMapa("Vida : "+this.vidaActual, registroMov.getX()-30, registroMov.getY()-50+ajustePosYimagen, Color.WHITE);
     let posX = parseInt(
       this.registroMov.getX() -
@@ -198,7 +215,7 @@ class Criatura extends Ente {
         this.ajustePosYimagen
     );
     this.transActual.dibujar(posX, posY, graficos);
-    this.colision.dibujar(graficos,"red");
+    
   }
 
   setSolicitudesDeMov(direccion, distanciaTile) {}

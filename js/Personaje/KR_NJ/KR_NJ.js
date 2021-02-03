@@ -6,14 +6,9 @@ class KR_NJ extends Dependiente {
   constructor() {
     super(28, 16, 1);
     this.condiciones = new CondicionesKoroNJ(this);
-    this.transformaciones.push(
-      new Transformacion1KR(this, 30, this.condiciones)
-    );
+    this.addTransformacion( new Transformacion1KR(this, 30, this.condiciones));
     this.configurarTransformaciones();
-    this.transActual = this.getTrans(1);
-    this.transActual.accionInicial();
-    this.setAjustePYimagen(-18);
-  }
+    this.setAjustePYimagen(-18);  }
 
   configurarTransformaciones() {}
 

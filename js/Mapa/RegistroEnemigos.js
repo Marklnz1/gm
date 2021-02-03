@@ -3,6 +3,6 @@ function crearEnemigo(id) {
     case 1:
       return new KR_NJ();
     case 2:
-      return null;
+      return new Tripulante();
   }
 }

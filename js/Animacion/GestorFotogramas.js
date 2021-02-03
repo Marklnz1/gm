@@ -15,11 +15,14 @@ class GestorFotogramas {
 	}
 
 	setSecuenciaFotogramas(idSprites) {
-		
+		this.idSprites = idSprites;
 		for(let i = 0; i < idSprites.length;i++) {
 			this.fotogramas[i] = this.hojaSprites.getSprite(idSprites[i]).getImagen();
 		}
 		
+	}
+	getSecuenciaFotogramas(){
+		return this.idSprites;
 	}
 	setTiempoEspera(tiempoEspera) {
 		this.temporizador.setTiempoMaximo(tiempoEspera);

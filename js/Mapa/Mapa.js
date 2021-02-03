@@ -67,8 +67,10 @@ class Mapa {
     }
   }
   configuracionFinal() {
-    for(let i = 0; i < 1 ; i++){
-      this.addEnemigo(1,208,378);
+    this.addEnemigo(1,208,378);
+
+    for(let i = 0; i < 10 ; i++){
+      this.addEnemigo(2,208,378);
 
     }
   }
@@ -124,12 +126,14 @@ class Mapa {
   }
   actualizar() {
     JUGADOR.actualizar();
+    JUGADOR.actualizarImagenActual();
     for(let e of this.enemigos){
       e.actualizar();
       e.actualizarImagenActual();
     }
     this.camaraMapa.actualizar();
     JUGADOR.getCapaParasito().primeraVez = true;
+
     // this.capaParasitoOP.primeraVez = true;
   }
 

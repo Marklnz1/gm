@@ -1,43 +1,44 @@
-class Player extends Ente{
+class Player extends Criatura{
   vectMov = { x: 0, y: 0 };
-  imagen = new Image();
-  contador =0;
   capaParasito;
+  uDiagonal = 1/Math.sqrt(2);
   constructor( x, y) {
     super(23,16);
-    this.velocidad = 5;
     this.setPosMapa(x,y);
-    this.imagen.cargado = false;
-    this.imagen.onload = ()=>{
-      this.imagen.cargado = true;
-    }
+    this.addTransformacion(new Transformacion1PY(this));
+
     this.getBacteria=()=>MAPA.getMapaBacteria().getBacteriaPosMapa(
       this.registroMov.getX(),
       this.registroMov.getY()
     );
-    this.imagen.src = "recursos/jugador.png";
+    this.setAjustePYimagen(-15);
+    this.bloquearDirImagen([0,4]);
+    
   }
 
  
   calcularVectorMov() {
     this.vectMov.x = 0;
     this.vectMov.y = 0;
-    if (teclaPresionada("w")) {
+    if (teclaPresionada("arrowUp")) {
       this.vectMov.y = -1;
-    } else if (teclaPresionada("s")) {
+    } else if (teclaPresionada("arrowDown")) {
       this.vectMov.y = 1;
     }
 
-    if (teclaPresionada("a")) {
+    if (teclaPresionada("arrowLeft")) {
       this.vectMov.x = -1;
-    } else if (teclaPresionada("d")) {
+    } else if (teclaPresionada("arrowRight")) {
       this.vectMov.x = 1;
+    }
+
+    if(this.vectMov.x!=0&&this.vectMov.y!=0){
+      this.vectMov.x*=this.uDiagonal;
+      this.vectMov.y*=this.uDiagonal;
     }
   }
   actualizar() {
-    super.actualizar();
-   
-    this.contador++;
+    super.actualizar();   
     this.vectMov.x =0 ;
     this.vectMov.y = 0;
     if(!isMobile()){
@@ -50,31 +51,19 @@ class Player extends Ente{
     if(this.vectMov.x==0&&this.vectMov.y==0){
       return;
     }
-    if(this.vectMov.y!=0&&this.vectMov.x==0){
-      this.actualizarDireccionChar(this.ultimaDireccion);
-   }else{
-      this.actualizarDireccionVect(this.vectMov.x,0);
-   }
-    this.moverse();    
+
+    this.actualizarDireccionVect(this.vectMov.x,this.vectMov.y);
+    this.moverse();  
   }
   moverse() {
-    let desX = this.vectMov.x * this.velocidad;
-    let desY = this.vectMov.y * this.velocidad;
+    let desX = this.vectMov.x * this.velocidadActual;
+    let desY = this.vectMov.y * this.velocidadActual;
     if(isNaN(desX)||isNaN(desY)) return;
     super.movPosColision(desX,desY);
   }
   getYorden(){
     return this.registroMov.getY();
   }
-  dibujar(graficos) {
-    //CUADRO
-    this.colision.dibujar(graficos,"#ff00bb");
-    let posXimg = this.registroMov.getX()-this.imagen.width/2;
-    let posYimg = this.registroMov.getY()-this.imagen.height/2-15;
-    graficos.drawImage(getAnimacion("JG_MOV").getImagen(this.direccion), parseInt(posXimg), parseInt(posYimg));
-
-  }
-
   getBacteria(){
     return MAPA.getMapaBacteria().getBacteriaPosMapa(this.registroMov.getX(),this.registroMov.getY());
   }

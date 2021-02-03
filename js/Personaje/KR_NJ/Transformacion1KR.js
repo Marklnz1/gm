@@ -3,7 +3,7 @@ class Transformacion1KR extends TransPersonaje {
     super(1, tiempoDescanso, kr);
 
     let estadoQuieto = new EstadoJugador(
-      "Quieto",
+      "quieto",
       "basico",
       kr,
       condiciones.movimientoInactivo
@@ -12,7 +12,7 @@ class Transformacion1KR extends TransPersonaje {
     this.addEstado(estadoQuieto);
 
     let estadoMoviendose = new EstadoJugador(
-      "Moviendose",
+      "moviendose",
       "basico",
       kr,
       condiciones.movimientoActivo

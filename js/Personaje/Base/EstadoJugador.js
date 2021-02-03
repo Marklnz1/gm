@@ -73,7 +73,7 @@ class EstadoJugador {
   }
   actualizarImagen() {
     this.imagenActual = this.animadorActual.getImagen(
-      this.criatura.getDireccion()
+      this.criatura.direccionImagen
     );
   }
   dibujar(posX, posY, graficos) {

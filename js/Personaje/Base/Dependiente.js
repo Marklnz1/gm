@@ -5,10 +5,6 @@ class Dependiente extends Criatura{
 	constructor(anchoCuadroColision, altoCuadroColision, id) {
 		super(anchoCuadroColision, altoCuadroColision, id);
 	}
-	
-	actualizar() {
-		super.actualizar();
-	}
 	actualizarMov() {
 		if(!this.transActual.estadoMuerteActivo())
 			this.mb.actualizar();

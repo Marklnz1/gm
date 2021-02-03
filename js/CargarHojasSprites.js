@@ -21,6 +21,8 @@ function getHojaSprites(nombre) {
 function agregarHojasSprites(){
     agregarHojaSprites("KR_hjBasico", "recursos/1.png", 64, 64);
     agregarHojaSprites("Jugador", "recursos/jugador2.png", 64, 64);
+    agregarHojaSprites("KR_T2","recursos/3.png",64,64);
+    agregarHojaSprites("KR_T3","recursos/4.png",64,64);
 }
 
 

@@ -37,6 +37,7 @@ class GestorEstadosJugador {
 	}
 	 
 	getEstadoNormalActivo() {
+	
 		for(let ej of this.estadosNormales) {
 			if(ej.cumpleCondicionActivacion())
 				return ej;

@@ -8,6 +8,7 @@ class CamaraMapa {
   generadorSombra;
   objetosDibujo;
   puntosEsquina;
+ 
   constructor(mapa, registroMovCentral) {
     this.mapa = mapa;
     this.cvPreImagenFinal = document.createElement("canvas");
@@ -26,7 +27,7 @@ class CamaraMapa {
   }
   actualizar() {
     this.actualizarRegistroMovCamara();
-    this.generadorSombra.actualizar();
+    if (!isMobile()) this.generadorSombra.actualizar();
     this.ordenarObjetosDibujo();
     
   }
@@ -51,7 +52,6 @@ class CamaraMapa {
     graficos.translate(this.getXdes(), this.getYdes());
     if (isMobile()) {
       this.recortarGraficosCirculo(graficos);
-      this.generadorSombra.recortarGraficos(graficos);
     } else {
       this.recortarGraficosCirculo(graficos);
        this.generadorSombra.recortarGraficos(graficos);
@@ -108,8 +108,10 @@ class CamaraMapa {
     //========================================================
     //this.rectangulo.setLocation(this.mapa.koro.registroMov.getX(),this.mapa.koro.registroMov.getY());
     //this.rectangulo.dibujar(graficos,"magenta");
+    
     graficos.resetTransform();
     graficos.drawImage(this.cvPreImagenFinal, 0, 0);
+    
     graficos.restore();
   }
   dibujarPreImagenFinal() {

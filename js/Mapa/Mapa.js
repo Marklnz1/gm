@@ -71,7 +71,6 @@ class Mapa {
       this.addEnemigo(1,208,378);
 
     }
-  
   }
 
   //==========================================================
@@ -131,7 +130,7 @@ class Mapa {
     }
     this.camaraMapa.actualizar();
     JUGADOR.getCapaParasito().primeraVez = true;
-   // this.capaParasitoOP.primeraVez = true;
+    // this.capaParasitoOP.primeraVez = true;
   }
 
   dibujar(graficos) {

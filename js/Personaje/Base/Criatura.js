@@ -198,6 +198,7 @@ class Criatura extends Ente {
         this.ajustePosYimagen
     );
     this.transActual.dibujar(posX, posY, graficos);
+    this.colision.dibujar(graficos,"red");
   }
 
   setSolicitudesDeMov(direccion, distanciaTile) {}

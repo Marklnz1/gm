@@ -105,9 +105,9 @@ class MecanismoMovimiento {
       );
     } else {
       if (!this.recorriendoCamino) this.recorriendoCamino = true;
-      bacteriaDestinoAux = this.caminoBacteria.get(this.contadorCamino++);
+      bacteriaDestinoAux = this.caminoBacteria[this.contadorCamino++];
 
-      if (this.contadorCamino >= this.caminoBacteria.size()) {
+      if (this.contadorCamino >= this.caminoBacteria.length) {
         this.recorriendoCamino = false;
         this.solicitudRecorrer = false;
         this.contadorCamino = 0;

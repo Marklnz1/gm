@@ -30,7 +30,7 @@ class BuscadorRuta {
         bCriatura.dirVecinoInt(bRuta) === this.criatura.getDireccion();
       if (!vaEnMismaDireccion) {
         this.tmpCambiarDir.reiniciar();
-        this.tmpCambiarDir.setTiempoMaximo(random(40, 110));
+        this.tmpCambiarDir.setTiempoMaximo(random(20, 60));
       }
       return bRuta;
     } 

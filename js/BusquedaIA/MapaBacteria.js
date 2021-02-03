@@ -8,7 +8,7 @@ class MapaBacteria {
   bacteriasTile;
   capasParasito = [];
   mapaTetris;
-  constructor(mapa,limiteBacterias = 30000) {
+  constructor(mapa, limiteBacterias = 30000) {
     this.bacteriasTile = [];
     this.mapa = mapa;
     this.limiteBacterias = limiteBacterias;
@@ -17,10 +17,9 @@ class MapaBacteria {
     this.crearBacterias();
     this.enlazarBacteriasMapa();
     this.mapaTetris = new MapaTetris(this);
-    for(let b of this.bacteriasMapa){
+    for (let b of this.bacteriasMapa) {
       b.insertarBloqueT();
     }
-
   }
   crearBacterias() {
     let matrizColisiones = this.mapa.matrizColisiones;
@@ -35,22 +34,25 @@ class MapaBacteria {
             for (let b of lista) b.numeros[0] = lista.length;
             lista.length = 0;
           }
-          
+
           continue;
         }
-        bCreada = this.insertarBacteria(x,y);
+        bCreada = this.insertarBacteria(x, y);
         lista.push(bCreada);
       }
     }
   }
-  insertarBacteria(x,y){
+  insertarBacteria(x, y) {
     let bCreada = new Bacteria(this, x, y, 32);
     this.bacteriasMapa.push(bCreada);
     this.matrizBacterias[x + y * this.mapa.getAnchoTile()] = bCreada;
     return bCreada;
   }
   crearCapaParasito(criatura) {
-    let capaParasitoCreada = new CapaParasito(criatura, this.mapaTetris.bloquesT);
+    let capaParasitoCreada = new CapaParasito(
+      criatura,
+      this.mapaTetris.bloquesT
+    );
     this.capasParasito.push(capaParasitoCreada);
     return capaParasitoCreada;
   }
@@ -63,27 +65,27 @@ class MapaBacteria {
   getBacteria(id) {
     return this.bacteriasMapa[id];
   }
-  getBloqueT(id){
+  getBloqueT(id) {
     return this.mapaTetris.getBloqueT(id);
   }
   //=========================================================================================================
-  enlazarBacteriasMapa(){
+  enlazarBacteriasMapa() {
     let anchoTile = this.mapa.getAnchoTile();
     let altoTile = this.mapa.getAltoTile();
     let lista = [];
     let bAnalizada;
     for (let x = 0; x < altoTile; x++) {
       for (let y = 0; y < anchoTile; y++) {
-        bAnalizada = this.getBacteriaMatriz(x,y);
-        if(bAnalizada==null) continue;
-        bAnalizada.addVecino(0,this.getBacteriaMatriz(x,y-1));
-        bAnalizada.addVecino(1,this.getBacteriaMatriz(x+1,y-1));
-        bAnalizada.addVecino(2,this.getBacteriaMatriz(x+1,y));
-        bAnalizada.addVecino(3,this.getBacteriaMatriz(x+1,y+1));
-        bAnalizada.addVecino(4,this.getBacteriaMatriz(x,y+1));
-        bAnalizada.addVecino(5,this.getBacteriaMatriz(x-1,y+1));
-        bAnalizada.addVecino(6,this.getBacteriaMatriz(x-1,y));
-        bAnalizada.addVecino(7,this.getBacteriaMatriz(x-1,y-1));
+        bAnalizada = this.getBacteriaMatriz(x, y);
+        if (bAnalizada == null) continue;
+        bAnalizada.addVecino(0, this.getBacteriaMatriz(x, y - 1));
+        bAnalizada.addVecino(1, this.getBacteriaMatriz(x + 1, y - 1));
+        bAnalizada.addVecino(2, this.getBacteriaMatriz(x + 1, y));
+        bAnalizada.addVecino(3, this.getBacteriaMatriz(x + 1, y + 1));
+        bAnalizada.addVecino(4, this.getBacteriaMatriz(x, y + 1));
+        bAnalizada.addVecino(5, this.getBacteriaMatriz(x - 1, y + 1));
+        bAnalizada.addVecino(6, this.getBacteriaMatriz(x - 1, y));
+        bAnalizada.addVecino(7, this.getBacteriaMatriz(x - 1, y - 1));
 
         if (bAnalizada.numVecinos() != 8 && bAnalizada.numVecinosCruz() != 3) {
           bAnalizada.esEsquina = true;
@@ -92,41 +94,6 @@ class MapaBacteria {
         }
       }
     }
-  }
-  dirVacioEsquinaPorPatron(bacteria) {
-    /*1 0 0		0 0 0	|N 0 0 --> el lugar que se busca
-     *1 B 0		1 B 0   |N B 0
-     *1 1 1 	1 1 0	|N N N
-     *
-     *Donde 0 es vacio
-     *		1 es vecino
-     *		B es bacteria ingresada
-     */
-    for (let i = 1; i < 8; i += 2) {
-      let posAntiHr = i - 1;
-      let posHr = (i + 1) % 8;
-      if (
-        bacteria.getBacteriaVecina(i) == null &&
-        bacteria.getBacteriaVecina(posAntiHr) == null &&
-        bacteria.getBacteriaVecina(posHr) == null
-      ) {
-        return i;
-      }
-    }
-
-    return -1;
-  }
-  dirUnicaBacteriaEsquinaVacia(bacteria) {
-    let tieneUnaBacteria =
-      bacteria.numBacteriasEsquina() == 3 && bacteria.numBacteriasCruz() == 4;
-
-    for (let i = 1; i < 8 && tieneUnaBacteria; i += 2) {
-      if (bacteria.getBacteriaVecina(i) == null) {
-        return i;
-      }
-    }
-
-    return -1;
   }
 
   getBacteriaMatriz(xTile, yTile) {
@@ -141,5 +108,15 @@ class MapaBacteria {
     for (let bacteriaMapa of this.bacteriasMapa) {
       bacteriaMapa.dibujar(graficos);
     }
+  }
+  crearCaminoBacteria(bOrigen, numBacterias, direccion) {
+    let caminoBacteria = [];
+    let bEncontrada = bOrigen.getVecino(direccion);
+
+    while (bEncontrada != null && caminoBacteria.length < numBacterias) {
+      caminoBacteria.push(bEncontrada);
+      bEncontrada = bEncontrada.getVecino(direccion);
+    }
+    return caminoBacteria;
   }
 }

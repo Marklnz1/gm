@@ -11,6 +11,9 @@ class Ente {
       altoCuadroColision
     );
   }
+  getColision(){
+    return this.colision;
+  }
   getDireccion() {
     return this.direccion;
   }

@@ -55,7 +55,6 @@ class TransPersonaje{
 		}
 		
 		estado = this.gestorDeAtaques.getEstadoNormalActivo();
-		
 		if(estado!=null) {
 			return estado;
 		}

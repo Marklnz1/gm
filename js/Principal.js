@@ -1,5 +1,5 @@
 var canvas;
-var FPS = 600;
+var FPS = 60;
 var contadorFPS = 0;
 var FPSactuales = 40;
 var JUGADOR;
@@ -54,8 +54,9 @@ function configurarJuego() {
   }, 1000);
 }
 function bucleJuego() {
-  contadorFPS++;
   MAPA.actualizar();
   MAPA.dibujar(ctx);
   GESTOR_MOVIL.dibujar(ctx);
+  contadorFPS++;
+
 }

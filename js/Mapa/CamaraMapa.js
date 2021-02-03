@@ -28,7 +28,7 @@ class CamaraMapa {
   }
   actualizar() {
     this.actualizarRegistroMovCamara();
-    if (!isMobile()) this.generadorSombra.actualizar();
+    this.generadorSombra.actualizar();
     this.ordenarObjetosDibujo();
     
   }

@@ -38,8 +38,8 @@ class RayoEsquinaSMB extends RayoSMB {
       this.lineaRayoPrincipal
   );
 
-  let anguloExtra = calcularAnguloPantallaP(this.registroMovOrigen,this.puntoDestinoPrincipal);
-    this.rayoNormalExtra.setAngulo(anguloExtra);
+  //let anguloExtra = calcularAnguloPantallaP(this.registroMovOrigen,this.puntoDestinoPrincipal);
+    this.rayoNormalExtra.setAngulo(this.anguloLineaPrincipal);
 	this.rayoNormalExtra.actualizar();
     this.rayoExtraAceptado = this.rayoNormalExtra.getSemiModulo() > 32 * 32;
 	if (!this.rayoExtraAceptado) return;

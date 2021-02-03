@@ -23,6 +23,7 @@ class Criatura extends Ente {
   ultimaDireccionImagen;
   direccionImagen;
   dirImagenBloqueadas = [];
+  animacionBidirencional = false;
   constructor(anchoCuadroColision, altoCuadroColision, id) {
     super(anchoCuadroColision, altoCuadroColision, id);
     this.temporizador.setTiempoMaximo(180);
@@ -132,14 +133,21 @@ class Criatura extends Ente {
     }
     this.transActual.getEstadoActual().actualizar();
     this.actualizarMov();
-    for(let dirBloqueada of this.dirImagenBloqueadas){
-      if(dirBloqueada==this.direccion){
+    if(this.animacionBidirencional){
+      if(this.getVectorDirMov().x===0&&this.getVectorDirMov().y!==0){
         this.direccionImagen = this.ultimaDireccionImagen;
-        return;
+      }else if(this.getVectorDirMov().x!==0){
+        this.ultimaDireccionImagen = this.direccionImagen;
+        this.direccionImagen = this.getVectorDirMov().x>0?2:6;
       }
+    }else{
+      this.ultimaDireccionImagen = this.direccionImagen;
+        this.direccionImagen = this.direccion;
     }
-    this.ultimaDireccionImagen = this.direccionImagen;
-    this.direccionImagen = this.direccion;
+    
+  }
+  getVectorDirMov(){
+    
   }
   addTransformacion(transformacion) {
     this.transformaciones.push(transformacion);

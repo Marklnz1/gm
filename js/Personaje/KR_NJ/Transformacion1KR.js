@@ -2,6 +2,7 @@ class Transformacion1KR extends TransPersonaje {
   constructor(kr, tiempoDescanso, condiciones) {
     super(1, tiempoDescanso, kr);
 
+	this.addEstado(new EstadoAcelerar(kr));
     let estadoQuieto = new EstadoJugador(
       "quieto",
       "basico",
@@ -86,5 +87,22 @@ class EstadoEmbestida extends EstadoJugador {
   dibujar(posX, posY, graficos) {
 	  super.dibujar(posX,posY,graficos);
 		this.areaAtaque.dibujar(graficos);
+	}
+}
+
+class EstadoAcelerar extends EstadoJugador{
+	constructor(kr){
+		super("acelerar","basico",kr,null,0);
+		this.cdActivacion = ()=> this.semiDistanciaObjetivo()>2**2;
+		this.setVelocidad(5);
+		this.addAnimador(getAnimacion("KR_T2_MOV"))
+	}
+	semiDistanciaObjetivo(){
+		let bObjetivo = this.criatura.objetivo.getBacteria();
+		let bCriatura = this.criatura.getBacteria();
+		let dx = bObjetivo.getXtile()-bCriatura.getXtile();
+		let dy = bObjetivo.getYtile()-bCriatura.getYtile();
+
+		return dx*dx+dy*dy;
 	}
 }

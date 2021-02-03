@@ -6,5 +6,6 @@ class Tripulante extends Dependiente {
     this.setAjustePYimagen(-18);
     this.bloquearDirImagen([0,4]);
      this.mb.getBuscadorRuta().alejarse = true;
+     this.animacionBidirencional = true;
   }
 }

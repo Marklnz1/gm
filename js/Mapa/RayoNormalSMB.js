@@ -1,17 +1,17 @@
-var tLineas;
-class RayoNormalSMB {
+
+class RayoNormalSMB{
   lineaRayo = new Linea();
   puntaRayoHorizontal = new Point();
   puntaRayoVertical = new Point();
   tamTile = 32;
   semiModulo;
-  ecLineaColision;
-  ecLineaRayo;
+  //ecLineaColision;
+  //ecLineaRayo;
   constructor(registroMovOrigen = new Point(), angulo = 0) {
     this.registroMovOrigen = registroMovOrigen;
     this.angulo = angulo;
-    this.ecLineaColision = new EcuacionLineal();
-    this.ecLineaRayo = new EcuacionLineal();
+   // this.ecLineaColision = new EcuacionLineal();
+   // this.ecLineaRayo = new EcuacionLineal();
   }
   dibujar(graficos, color) {
     this.lineaRayo.dibujar(graficos, color);
@@ -30,11 +30,11 @@ class RayoNormalSMB {
     );
     this.actualizarLineaRayo(puntaRayo);
     
-    let t0 = performance.now();
-    puntaRayo = this.calcularColisionConLineas();
-    let t1 = performance.now();
-      tLineas = t1-t0;
-    this.actualizarLineaRayo(puntaRayo);
+    //let t0 = performance.now();
+    //puntaRayo = this.calcularColisionConLineas();
+    //let t1 = performance.now();
+      //tLineas = t1-t0;
+    //this.actualizarLineaRayo(puntaRayo);
     this.semiModulo = getSemiModuloPP(
       this.registroMovOrigen,
       puntaRayo

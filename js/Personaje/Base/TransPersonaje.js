@@ -58,7 +58,7 @@ class TransPersonaje{
 		if(estado!=null) {
 			return estado;
 		}
-		
+	
 		return this.gestorDeBasicos.getEstadoNormalActivo();
 	}
 	getEstadoInstantaneoActivo() {

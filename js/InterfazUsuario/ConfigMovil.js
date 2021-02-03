@@ -51,8 +51,6 @@ class ConfigMovil {
       110,
       graficos
     );
-
-      dibujarTexto("tLineas : "+tLineas,10,130,graficos);
   }
   
   //================================================================================

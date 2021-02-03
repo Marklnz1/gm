@@ -1,11 +1,11 @@
-class EcuacionLineal{
+class EcuacionLinealS{
     a;
     b;
 	xVertical;
 	tipo;
 	constructor(linea) {
         if(linea!=null)
-        this.configEcuacion(linea.getX1(),linea.getY1(),linea.getX2(),linea.getY2());
+		this.configEcuacion(linea.getX1(),linea.getY1(),linea.getX2(),linea.getY2());
 	}
 	
 	

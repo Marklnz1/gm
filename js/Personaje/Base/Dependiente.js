@@ -5,6 +5,9 @@ class Dependiente extends Criatura{
 	constructor(anchoCuadroColision, altoCuadroColision, id) {
 		super(anchoCuadroColision, altoCuadroColision, id);
 	}
+	getVectorDirMov(){
+		return this.mb.vectDirMov;
+	}
 	actualizarMov() {
 		if(!this.transActual.estadoMuerteActivo())
 			this.mb.actualizar();

@@ -71,6 +71,9 @@ class Mapa {
   configuracionFinal() {
     this.addEnemigo(1, 208, 378);
 
+    for (let i = 0; i < 10; i++) {
+      this.addEnemigo(2, 208, 378);
+    }
   }
 
   //==========================================================

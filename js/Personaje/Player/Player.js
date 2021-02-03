@@ -13,7 +13,7 @@ class Player extends Criatura{
     );
     this.setAjustePYimagen(-15);
     this.bloquearDirImagen([0,4]);
-    
+    this.animacionBidirencional = true;
   }
 
  
@@ -36,6 +36,9 @@ class Player extends Criatura{
       this.vectMov.x*=this.uDiagonal;
       this.vectMov.y*=this.uDiagonal;
     }
+  }
+  getVectorDirMov(){
+    return this.vectMov;
   }
   actualizar() {
     super.actualizar();   

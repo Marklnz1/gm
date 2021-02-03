@@ -28,7 +28,7 @@ class CamaraMapa {
   }
   actualizar() {
     this.actualizarRegistroMovCamara();
-    this.generadorSombra.actualizar();
+    if (!isMobile()) this.generadorSombra.actualizar();
     this.ordenarObjetosDibujo();
     
   }
@@ -81,9 +81,8 @@ class CamaraMapa {
     graficos.save();
     graficos.translate(this.getXdes(), this.getYdes());
     if (isMobile()) {
-      //this.recortarGraficosCirculo(graficos);
-      this.generadorSombra.recortarGraficos(graficos);
-
+      this.recortarGraficosCirculo(graficos);
+      
     } else {
       //this.recortarGraficosCirculo(graficos);
        this.generadorSombra.recortarGraficos(graficos);

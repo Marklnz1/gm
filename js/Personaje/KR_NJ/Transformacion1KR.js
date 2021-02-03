@@ -58,7 +58,7 @@ class EstadoEmbestida extends EstadoJugador {
   constructor(kr) {
     super("embestida", "ataque", kr, null, 120);
    
-    this.areaAtaque = new RectanguloHelice(kr, 32*3, 4* 32);
+    this.areaAtaque = new RectanguloHelice(kr, 32*2, 12* 32);
     this.cdActivacion = () =>{
 		return this.areaAtaque.intersecta(kr.objetivo.getColision())
 	}
@@ -73,7 +73,7 @@ class EstadoEmbestida extends EstadoJugador {
     this.criatura.mb.recorrerCaminoBacteria(
       MAPA.mapaBacteria.crearCaminoBacteria(
         this.criatura.getBacteria(),
-        7,
+        14,
         this.criatura.getDireccion()
       )
     );

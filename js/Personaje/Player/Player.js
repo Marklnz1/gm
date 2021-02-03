@@ -46,12 +46,10 @@ class Player extends Criatura{
     }else if(estaTocandoPantalla){      
         this.vectMov.x = GESTOR_MOVIL.vectMovU.x;
         this.vectMov.y = GESTOR_MOVIL.vectMovU.y;
-      
     }
     if(this.vectMov.x==0&&this.vectMov.y==0){
       return;
     }
-
     this.actualizarDireccionVect(this.vectMov.x,this.vectMov.y);
     this.moverse();  
   }

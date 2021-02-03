@@ -1,11 +1,12 @@
 class Transformacion1PY extends TransPersonaje {
   constructor(jugador) {
       super(1,0,jugador);
+      
     let estadoQuieto = new EstadoJugador(
       "quieto",
       "basico",
       jugador,
-      teclasMovNoActiva
+      ()=>teclasMovNoActiva()&&!estaTocandoPantalla
     );
     estadoQuieto.addAnimador(getAnimacion("JG_Quieto"));
     this.addEstado(estadoQuieto);
@@ -14,7 +15,7 @@ class Transformacion1PY extends TransPersonaje {
       "moviendose",
       "basico",
       jugador,
-      teclasMovActiva
+      ()=>teclasMovActiva()||estaTocandoPantalla
     );
     estadoMoviendose.addAnimador(getAnimacion("JG_MOV"));
     estadoMoviendose.setVelocidad(5);

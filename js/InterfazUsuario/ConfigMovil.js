@@ -55,6 +55,7 @@ class ConfigMovil {
   
   //================================================================================
   reportarCambioPantalla(num) {
+    if(!isMobile())return;
     let factor = Math.round(window.devicePixelRatio);
     
     let anchoCanvas = (screen.width * window.devicePixelRatio) / factor;

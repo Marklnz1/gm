@@ -44,24 +44,24 @@
     <script src="js/Mapa/RayoNormalSMB.js"></script>
     <script src="js/Mapa/RegistroEnemigos.js"></script>
     <!--Personaje-->
-        <!--Base-->
-        <script src="js/Personaje/Base/Ente.js"></script>
-        <script src="js/Personaje/Base/Criatura.js"></script>
-        <script src="js/Personaje/Base/Dependiente.js"></script>
-        <script src="js/Personaje/Base/TransPersonaje.js"></script>
-        <script src="js/Personaje/Base/EstadoInstantaneo.js"></script>
-        <script src="js/Personaje/Base/EstadoJugador.js"></script>
+    <!--Base-->
+    <script src="js/Personaje/Base/Ente.js"></script>
+    <script src="js/Personaje/Base/Criatura.js"></script>
+    <script src="js/Personaje/Base/Dependiente.js"></script>
+    <script src="js/Personaje/Base/TransPersonaje.js"></script>
+    <script src="js/Personaje/Base/EstadoInstantaneo.js"></script>
+    <script src="js/Personaje/Base/EstadoJugador.js"></script>
 
-        <!--KR_NJ-->
-        <script src="js/Personaje/KR_NJ/CondicionesKoroNJ.js"></script>
-        <script src="js/Personaje/KR_NJ/KR_NJ.js"></script>
-        <script src="js/Personaje/KR_NJ/Transformacion1KR.js"></script>
-        <!--Player-->
-        <script src="js/Personaje/Player/Player.js"></script>
-        <script src="js/Personaje/Player/Transformacion1PY.js"></script>
-        <script src="js/Personaje/Tripulante/CondicionesTripulante.js"></script>
-        <script src="js/Personaje/Tripulante/Transformacion1TRP.js"></script>
-        <script src="js/Personaje/Tripulante/Tripulante.js"></script>
+    <!--KR_NJ-->
+    <script src="js/Personaje/KR_NJ/CondicionesKoroNJ.js"></script>
+    <script src="js/Personaje/KR_NJ/KR_NJ.js"></script>
+    <script src="js/Personaje/KR_NJ/Transformacion1KR.js"></script>
+    <!--Player-->
+    <script src="js/Personaje/Player/Player.js"></script>
+    <script src="js/Personaje/Player/Transformacion1PY.js"></script>
+    <script src="js/Personaje/Tripulante/CondicionesTripulante.js"></script>
+    <script src="js/Personaje/Tripulante/Transformacion1TRP.js"></script>
+    <script src="js/Personaje/Tripulante/Tripulante.js"></script>
 
     <!--Personaje-->
     <script src="js/Personaje/GestorEstadosJugador.js"></script>
@@ -74,7 +74,6 @@
     <script src="js/CargarHojasSprites.js"></script>
     <script src="js/Principal.js"></script>
 
-
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, target-densitydpi=device-dpi" -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta
@@ -84,8 +83,14 @@
     <link rel="stylesheet" href="css/estilos.css" />
   </head>
 
-  <body onload="comenzar();">
-    <button onclick="openFullscreen();">Open Fullscreen</button>
-    <canvas id="canvas"> </canvas>
+  <body onload="configurarCanvas();">
+    <div class="div-principal">
+      <h1 class="titulo">AMOUNG US CHAFA 2.0</h1>
+      <canvas id="canvas" onclick="tocoCanvas();"> </canvas>
+      <div class="div-botones">
+        <button onclick="openFullscreen();">Open Fullscreen</button>
+        <button onclick="comenzar();">Iniciar</button>
+      </div>
+    </div>
   </body>
 </html>

@@ -11,7 +11,14 @@ let CANVAS_ALTO = 250;
 
 window.addEventListener("resize", rotacionMovil, false);
 
+function tocoCanvas(){
+  console.log("xd");
+}
 function comenzar() {
+  ctx.font = "40px Arial";
+  ctx.fillStyle = "white";
+  ctx.fillText("Cargando . . . ",470,390);
+  //====================================
   const xhttp = new XMLHttpRequest();
 
   xhttp.open("GET", "recursos/laboratorio.json", true);
@@ -24,7 +31,6 @@ function comenzar() {
   };
 }
 function configurarTodo(){
-  configurarCanvas();
   configurarJuego();
 }
 function configurarCanvas() {
@@ -34,12 +40,14 @@ function configurarCanvas() {
   canvas.addEventListener("touchmove", handleMove, false);
 
   ctx = canvas.getContext("2d");
-  let anchoCanvas = 1100;
+  let anchoCanvas = 900;
   let altoCanvas = 620;
-  canvas.width = anchoCanvas;
-  canvas.height = altoCanvas;
-  canvas.style.width = `${anchoCanvas / window.devicePixelRatio}px`;
-  canvas.style.height = `${altoCanvas / window.devicePixelRatio}px`;
+  canvas.width = anchoCanvas*window.devicePixelRatio;
+  canvas.height = altoCanvas*window.devicePixelRatio;
+  canvas.style.width = `${anchoCanvas}px`;
+  canvas.style.height = `${altoCanvas}px`;
+  ctx.fillStyle = "black";
+  ctx.fillRect(0,0, canvas.width,canvas.height);
 }
 
 function configurarJuego() {

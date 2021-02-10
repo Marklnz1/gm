@@ -1,11 +1,44 @@
-
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-color: #111;
+}
+.div-principal{
+    background-color: #222;
+    margin: 20px 0px;
+    padding-top: 10px;
+}
+.titulo{
+    color:white;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: center;
+}
 canvas{
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-crisp-edges;
     image-rendering: pixelated;
     image-rendering: crisp-edges;
 }
-
-button{
+canvas {
+    padding: 0;
+    margin: auto;
     display: block;
+}
+.div-botones{
+    display: flex;
+}
+button{
+    display: inline-block;
+    height: 100px;
+    width: 450px;
+   background-color: gray;
+   border-color: #0000;
+}
+button:nth-child(1){
+    margin-left: auto;
+}
+button:nth-child(2){
+    margin-right: auto;
 }

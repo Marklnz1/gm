@@ -102,7 +102,7 @@ class EstadoAcelerar extends EstadoJugador {
   constructor(kr) {
     super("acelerar", "basico", kr, null, 35);
     this.cdActivacion = () => this.semiDistanciaObjetivo() > 2 ** 2;
-    this.setVelocidad(5);
+    this.setVelocidad(4);
     this.addAnimador(getAnimacion("KR_T2_MOV"));
   }
   accionInicial() {

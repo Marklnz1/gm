@@ -295,17 +295,17 @@ class Laser{
     cargarImagen("recursos/laserRojo.png").then((imagen)=>{
       this.imagen = imagen;
     });
-    this.point = Direccion.convertIntToPoint(JUGADOR.getDireccion());
+    this.point = {x:JUGADOR.vectMov.x,y:JUGADOR.vectMov.y};
+    
   }
 
   actualizar(){
     if(this.fueraDeMapa()) return;
   
-    let dx = this.point.getX();
-    let dy = -this.point.getY();
+    let dx = this.point.x;
+    let dy = this.point.y;
   
     let modulo = Math.sqrt(dx*dx+dy*dy);
-    if(modulo == 0) return;
     let mx = dx*27/modulo;
     let my = dy*27/modulo;
     this.angulo = calcularAnguloPantallaC(0,0,mx,my);

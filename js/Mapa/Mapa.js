@@ -8,9 +8,11 @@ class Mapa {
   camaraMapa;
   gestorCriaturas;
   koro;
-  mapaTetris;
   matrizColisiones;
   enemigos = [];
+  gLineaBacteriaV = new GestorLineaBacteria(JUGADOR,4);
+  gLineaBacteriaH = new GestorLineaBacteria(JUGADOR,2);
+  cruzBacteria = new CruzBacteria(JUGADOR);
   constructor(datosTiled) {
     this.ancho = datosTiled.anchoMapa;
     this.alto = datosTiled.altoMapa;
@@ -69,10 +71,12 @@ class Mapa {
     }
   }
   configuracionFinal() {
+    for(let i=0; i < 5;i++){
     this.addEnemigo(1, 208, 378);
 
-    for (let i = 0; i < 10; i++) {
-      this.addEnemigo(2, 208, 378);
+   }
+    for (let i = 0; i < 1; i++) {
+      // this.addEnemigo(2, 208, 378);
     }
   }
 
@@ -128,10 +132,24 @@ class Mapa {
   actualizar() {
     JUGADOR.actualizar();
     JUGADOR.actualizarImagenActual();
+    this.cruzBacteria.actualizar();
+    this.gLineaBacteriaV.actualizar();
+    this.gLineaBacteriaH.actualizar();
+
     for (let e of this.enemigos) {
       e.actualizar();
       e.actualizarImagenActual();
     }
+
+    for(let i = 0; i < this.cruzBacteria.tablaBacteriaH.lineasBacteria.length; i++){
+      let lb = this.cruzBacteria.tablaBacteriaH.lineasBacteria[i];
+      if(lb==null){
+        objetoMostrar[i] = 0;
+        continue;
+      } 
+      objetoMostrar[i] = this.cruzBacteria.tablaBacteriaH.lineasBacteria[i].numCriaturas();
+    }
+
     this.camaraMapa.actualizar();
     JUGADOR.getCapaParasito().primeraVez = true;
 
@@ -190,8 +208,5 @@ class Mapa {
   }
   getColisionesTile() {
     return this.colisionesTile;
-  }
-  getMapaBacteriaOP() {
-    return this.mapaTetris;
   }
 }

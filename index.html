@@ -1,6 +1,28 @@
 <html>
   <head>
     <title>Raycasting</title>
+    
+
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, target-densitydpi=device-dpi" -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <link rel="stylesheet" href="css/estilos.css" />
+  </head>
+
+  <body onload="configurarCanvas();comenzar()">
+    <div class="div-principal">
+      <h1 class="titulo">AMOUNG US CHAFA 2.0</h1>
+      <canvas id="canvas" onclick="tocoCanvas();"> </canvas>
+      <div class="div-botones">
+        <button onclick="openFullscreen();">Open Fullscreen</button>
+        <button onclick="comenzar();">Iniciar</button>
+      </div>
+    </div>
+
+
     <!--Animacion-->
     <script src="js/Animacion/Animador.js"></script>
     <script src="js/Animacion/GestorAnimadores.js"></script>
@@ -13,10 +35,15 @@
     <script src="js/BusquedaIA/BloqueT.js"></script>
     <script src="js/BusquedaIA/BuscadorRuta.js"></script>
     <script src="js/BusquedaIA/CapaParasito.js"></script>
+    <script src="js/BusquedaIA/CruzBacteria.js"></script>
+    <script src="js/BusquedaIA/GestorLineaBacteria.js"></script>
+    <script src="js/BusquedaIA/LineaBacterias.js"></script>
     <script src="js/BusquedaIA/MapaBacteria.js"></script>
     <script src="js/BusquedaIA/MapaTetris.js"></script>
     <script src="js/BusquedaIA/MecanismoMovimiento.js"></script>
     <script src="js/BusquedaIA/Parasito.js"></script>
+    <script src="js/BusquedaIA/TablaBacteria.js"></script>
+
     <!--Extra-->
     <script src="js/Extra/CargadorLista.js"></script>
     <script src="js/Extra/Direccion.js"></script>
@@ -73,24 +100,7 @@
     <script src="js/CargarAnimaciones.js"></script>
     <script src="js/CargarHojasSprites.js"></script>
     <script src="js/Principal.js"></script>
+    <script src="js/laser.js"></script>
 
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, target-densitydpi=device-dpi" -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta
-      name="apple-mobile-web-app-status-bar-style"
-      content="black-translucent"
-    />
-    <link rel="stylesheet" href="css/estilos.css" />
-  </head>
-
-  <body onload="configurarCanvas();">
-    <div class="div-principal">
-      <h1 class="titulo">AMOUNG US CHAFA 2.0</h1>
-      <canvas id="canvas" onclick="tocoCanvas();"> </canvas>
-      <div class="div-botones">
-        <button onclick="openFullscreen();">Open Fullscreen</button>
-        <button onclick="comenzar();">Iniciar</button>
-      </div>
-    </div>
   </body>
 </html>

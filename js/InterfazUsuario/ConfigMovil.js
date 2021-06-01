@@ -35,7 +35,7 @@ class ConfigMovil {
       graficos
     );
     dibujarTexto(
-      "  width : " + screen.width + " height : " + screen.height,
+      "  width : " + screen.width + " height : " + screen.height+" array "+objetoMostrar[0]+" , "+objetoMostrar[1]+" , "+objetoMostrar[2],
       10,
       80,
       graficos
@@ -55,7 +55,7 @@ class ConfigMovil {
   
   //================================================================================
   reportarCambioPantalla(num) {
-    if(!isMobile())return;
+   
     let factor = Math.round(window.devicePixelRatio);
     
     let anchoCanvas = (screen.width * window.devicePixelRatio) / factor;
@@ -108,6 +108,7 @@ class ConfigMovil {
     let modulo = Math.sqrt(dx * dx + dy * dy);
     this.vectMovU.x = dx / modulo;
     this.vectMovU.y = dy / modulo;
+
   }
   getXmov() {
     return this.vect.x;

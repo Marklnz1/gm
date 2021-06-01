@@ -3,6 +3,8 @@ class BuscadorRuta {
   tmpCambiarDir;
   alejarse = false;
   posiblesBacterias = [];
+  tiemposCambioDir = [20,30,40,50,100,110,120,130,140,100,110,120,130,140];
+  contadorBacteria;
   constructor(criatura) {
     this.criatura = criatura;
     this.tmpCambiarDir = new Temporizador();
@@ -11,9 +13,62 @@ class BuscadorRuta {
     this.tmpCambiarDir.actualizar();
   }
   calcularNuevaRuta(bAnterior) {
+    this.contadorBacteria++;
+
+    for(let e of MAPA.enemigos){
+      let dx = Math.abs(e.getX()-this.criatura.getX());
+      let dy = Math.abs(e.getY()-this.criatura.getY());
+      if(e!=this.criatura&&e.id === this.criatura.id &&e.getDireccion()===this.criatura.getDireccion()&&dx<=1.5&&dy<=1.5){
+        this.criatura.setReduccionVelocidad(random(15,25));
+        this.contadorBacteria = 0;
+        break;
+      }
+    }
+    if(this.contadorBacteria===1){
+      this.criatura.reduccionVelocidad = 0;
+    }
+    if(this.alejarse){
+      let bRuta = this.getProxBacteria();
+      this.recalcularTiempoCambioDir(bRuta);
+      return bRuta;
+    }else{
+        return this.getBacteriaRutaAcercarse();
+    }
+    
+  }
+  getBacteriaRutaAcercarse(){
     let bObjetivo = this.criatura.objetivo.getBacteria();
     let bCriatura = this.criatura.getBacteria();
-    if (!this.alejarse && bCriatura.bloqueT !== bObjetivo.bloqueT) {
+    let crzObjetivo = MAPA.cruzBacteria;
+    let bDireccionada;
+    let bRuta;
+
+		let dirMov = crzObjetivo.getDirMovAjuste(bCriatura);
+		if(dirMov!==-1){
+        bRuta = bCriatura.getVecino(dirMov);
+    } 
+
+    if(bRuta==null){
+      if(crzObjetivo.esDirAEje(bCriatura,this.criatura.getDireccion())){
+        bDireccionada = bCriatura.getVecino(this.criatura.getDireccion());
+      }
+    }
+
+    if(bRuta==null){
+      let numRandom = random(0,1);
+      for(let i = 0; i < 8; i+=2){
+        if(i!=this.criatura.getDireccion()&&crzObjetivo.esDirAEje(bCriatura,i)){
+          bRuta = bCriatura.getVecino(i);
+          if(numRandom===1)break;
+        }
+      }
+    }
+    if(bRuta==null){
+      bRuta = bDireccionada;
+    }else if(!this.tmpCambiarDir.tiempoCumplido() && bDireccionada!=null){
+      bRuta = bDireccionada;
+    }
+    if(bRuta==null){
       let proxPeso = this.criatura.getPeso() + (this.alejarse ? 1 : -1);
       let capaDeObjetivo = this.criatura.getCapaParasitoObjetivo();
       let bqActual = bCriatura.bloqueT;
@@ -21,19 +76,53 @@ class BuscadorRuta {
         let bqVecino = bqActual.getVecino(i);
         if (bqVecino == null) continue;
         if (capaDeObjetivo.getPeso(bqVecino) === proxPeso) {
-          return this.criatura.getBacteria().getVecino(i);
+          bRuta = this.criatura.getBacteria().getVecino(i);
+          break;
         }
       }
-    } else {
-      let bRuta = this.getProxBacteria();
-      let vaEnMismaDireccion =
-        bCriatura.dirVecinoInt(bRuta) === this.criatura.getDireccion();
-      if (!vaEnMismaDireccion) {
-        this.tmpCambiarDir.reiniciar();
-        this.tmpCambiarDir.setTiempoMaximo(random(20, 60));
+    }
+    if(bRuta==null){
+      console.log("Error no se encontro una ruta");
+      console.log(bCriatura,bObjetivo);
+    }
+    this.recalcularTiempoCambioDir(bRuta);
+    return bRuta;
+  }
+  recalcularTiempoCambioDir(bSiguiente){
+    let vaEnMismaDireccion =
+    this.criatura.getBacteria().dirVecinoInt(bSiguiente) === this.criatura.getDireccion();
+    if (!vaEnMismaDireccion) {
+      this.tmpCambiarDir.reiniciar();
+      this.tmpCambiarDir.setTiempoMaximo(this.randomTiempoCambioDir());
+    }
+  }
+  randomTiempoCambioDir(){
+    return this.tiemposCambioDir[random(0,this.tiemposCambioDir.length-1)];
+  }
+  getBacteriaAlineadaV(){
+    let estaAlineadoV = false;
+    let bCriatura = this.criatura.getBacteria();
+    let numV_criatura = bCriatura.numeroV;
+
+    for(let numV_Jugador of JUGADOR.numerosV){
+      
+      if(numV_Jugador === numV_criatura){
+        estaAlineadoV = true;
+        break;
       }
-      return bRuta;
-    } 
+    }
+     
+    
+    let bJugador = JUGADOR.getBacteria();
+    if(!estaAlineadoV || bJugador.getYtile()===bCriatura.getYtile()) return null;
+   
+    let bAlineada = null;
+    if(bCriatura.getYtile()<bJugador.getYtile()){
+      bAlineada = bCriatura.getVecino(4);
+    }else{
+      bAlineada = bCriatura.getVecino(0);
+    }
+      return bAlineada;
   }
   getProxBacteria() {
     let bObjetivo = this.criatura.objetivo.getBacteria();
@@ -42,6 +131,7 @@ class BuscadorRuta {
     for (let i = 0; i < 8; i += 2) {
       let bVecina = bCriatura.getVecino(i);
       if (bVecina == null) continue;
+      //obtenemos las bacterias que nos acercan al jugador o nos alejan, dependiendo
       let esBacteriaLejana = this.estaMasLejos(bObjetivo, bCriatura, bVecina);
       if (
         (this.alejarse && esBacteriaLejana) ||
@@ -55,6 +145,7 @@ class BuscadorRuta {
     let bDireccionada = this.calcularBacteriaDireccionada();
     let cambiarDireccion =
       this.tmpCambiarDir.tiempoCumplido() || bObjetivo === bCriatura;
+      // cambiarDireccion = false;
 
     if (cambiarDireccion || bDireccionada == null) {
       if (bDireccionada != null) {

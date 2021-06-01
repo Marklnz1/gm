@@ -57,10 +57,10 @@ class EstadoJugador {
   accionInicial() {
     this.criatura.setVelocidadActual(this.velocidad);
     this.criatura.setReduccionVelocidad(0);
-    this.tmpDescanso.reiniciar();
     this.bloqueado = false;
   }
   accionFinal() {
+    this.tmpDescanso.reiniciar();
   }
   getAnimadorActual() {
     return this.animadorActual;

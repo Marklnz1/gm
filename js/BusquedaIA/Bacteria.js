@@ -9,6 +9,8 @@ class Bacteria {
   esEsquina;
   posCentro;
   numeros = [];
+  lineaBacteriaV;
+  lineaBacteriaH;
   constructor(mapaBacteria, xTile, yTile, tam) {
     this.mapaBacteria = mapaBacteria;
     this.xTile = xTile;
@@ -19,6 +21,13 @@ class Bacteria {
     let xCentro = xTile * 32 + tam / 2 - 1;
     let yCentro = yTile * 32 + tam / 2 - 1;
     this.posCentro = new Point(xCentro, yCentro);
+  }
+  getLineaBacteria(dirEje){
+    if(this.lineaBacteriaH.dirEje === dirEje){
+      return this.lineaBacteriaH;
+    }else{
+      return this.lineaBacteriaV;
+    }
   }
   insertarBloqueT(){
     this.bloqueT = this.mapaBacteria.getBloqueT(this.idBloqueT);
@@ -66,13 +75,26 @@ class Bacteria {
   getVecino(drcNumerica) {
     return this.vecinos[drcNumerica];
   }
+  getGestorLineaBacteriaActivo(){
+    if(this.lineaBacteriaH.dirMov!=null) return this.lineaBacteriaH.gtLineaBacteria;
+    if(this.lineaBacteriaV.dirMov!=null) return this.lineaBacteriaV.gtLineaBacteria;
+    return null;
+  }
   dibujar(graficos) {
-    this.colision.dibujar(graficos, this.esEsquina ? "yellow" : "green");
+    this.colision.dibujar(graficos, this.esEsquina ? "yellow" : "#0F01");
     this.colision.dibujarContorno(graficos);
 
     graficos.fillStyle = "white";
 
-    graficos.fillText(this.id, this.getXcentro(), this.getYcentro());
+    // graficos.fillText(this.id, this.getXcentro(), this.getYcentro());
+    // if(this.lineaBacteriaV.dirMov!="bidireccional")
+    if(this.lineaBacteriaH.gtLineaBacteria!=null){
+      graficos.fillText(this.lineaBacteriaH.gtLineaBacteria.dirEje, this.getXcentro(), this.getYcentro());
+    }
+    if(this.lineaBacteriaV.gtLineaBacteria!=null){
+      graficos.fillText(this.lineaBacteriaV.gtLineaBacteria.dirEje, this.getXcentro(), this.getYcentro());
+    }
+
   }
 
   getTam() {

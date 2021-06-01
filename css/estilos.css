@@ -7,8 +7,7 @@ body{
 }
 .div-principal{
     background-color: #222;
-    margin: 20px 0px;
-    padding-top: 10px;
+    padding-top: 0px;
 }
 .titulo{
     color:white;
@@ -16,10 +15,10 @@ body{
     text-align: center;
 }
 canvas{
-    image-rendering: -moz-crisp-edges;
+    /* image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-crisp-edges;
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
+    image-rendering: pixelated; */
+    /* image-rendering: crisp-edges; */
 }
 canvas {
     padding: 0;
@@ -31,7 +30,7 @@ canvas {
 }
 button{
     display: inline-block;
-    height: 100px;
+    height: 50px;
     width: 450px;
    background-color: gray;
    border-color: #0000;

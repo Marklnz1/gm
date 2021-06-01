@@ -10,14 +10,19 @@ class MecanismoMovimiento {
   caminoBacteria;
   contadorCamino = 0;
   buscadorRuta;
+
   constructor(dependiente) {
     this.criatura = dependiente;
     this.buscadorRuta = new BuscadorRuta(dependiente);
     this.movX = 0;
     this.movY = 0;
     this.vectDirMov = new Point();
+    this.eventos = [];
+    this.eventos["preCambioDestino"] = [];
   }
-
+  addEventListener(tipoEvento,funcion){
+    this.eventos[tipoEvento].push(funcion);
+  }
   getBacteriaDestino() {
     return this.bacteriaDestino;
   }
@@ -51,6 +56,13 @@ class MecanismoMovimiento {
       if (this.rutaCompletada()) {
         this.calcularBacteriaDestino();
         this.calcularVecDirMov();
+        removeItemFromArr(this.bacteriaAnterior.numeroV.criaturas,this.criatura);
+        this.bacteriaDestino.numeroV.criaturas.push(this.criatura);
+
+        this.bacteriaAnterior.lineaBacteriaH.removeCriatura(this.criatura);
+        this.bacteriaAnterior.lineaBacteriaV.removeCriatura(this.criatura);
+        this.bacteriaDestino.lineaBacteriaH.addCriatura(this.criatura);
+        this.bacteriaDestino.lineaBacteriaV.addCriatura(this.criatura);
       }
 
       this.moverse();
@@ -98,7 +110,9 @@ class MecanismoMovimiento {
   }
   calcularBacteriaDestino() {
     let bacteriaDestinoAux = null;
-
+    for(let f of this.eventos["preCambioDestino"]){
+        f();
+    }
     if (!this.solicitudRecorrer) {
       bacteriaDestinoAux = this.buscadorRuta.calcularNuevaRuta(
         this.bacteriaAnterior
@@ -144,11 +158,11 @@ class MecanismoMovimiento {
   }
   crearCaminoBacteria(origen, numBacterias, direccion) {
     let caminoBacteria = [];
-    let bacteriaEncontrada = origen.getBacteriaVecina(direccion);
+    let bacteriaEncontrada = origen.getVecino(direccion);
 
     while (bacteriaEncontrada != null && caminoBacteria.length < numBacterias) {
-      caminoBacteria.add(bacteriaEncontrada);
-      bacteriaEncontrada = bacteriaEncontrada.getBacteriaVecina(direccion);
+      caminoBacteria.push(bacteriaEncontrada);
+      bacteriaEncontrada = bacteriaEncontrada.getVecino(direccion);
     }
     return caminoBacteria;
   }

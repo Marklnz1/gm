@@ -1,5 +1,6 @@
 class Ente {
   velocidadActual;
+  reduccionVelocidad = 0;
   constructor(anchoCuadroColision, altoCuadroColision) {
     this.registroMov = new Point();
     this.direccion = 2;
@@ -26,14 +27,15 @@ class Ente {
   getY() {
     return this.registroMov.getY();
   }
-  setReduccionVelocidad(reduccion){
-    //FALTA CODIGO
-  }
+  setReduccionVelocidad(porcentajeReduccion) {
+		this.reduccionVelocidad = (this.velocidadActual/100)*porcentajeReduccion;
+	}
   setVelocidadActual(velocidad) {
     this.velocidadActual = velocidad;
   }
   getVelocidadActual() {
-    return this.velocidadActual;
+
+    return this.velocidadActual-this.reduccionVelocidad;
   }
   actualizar() {
     this.actualizarCuadroColision();

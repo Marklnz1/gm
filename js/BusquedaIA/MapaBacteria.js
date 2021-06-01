@@ -30,11 +30,17 @@ class MapaBacteria {
     for (let y = 0; y < altoTile; y++) {
       for (let x = 0; x < anchoTile; x++) {
         if (matrizColisiones[x + y * anchoTile] != null) {
+          //===========================================
           if (lista.length != 0) {
-            for (let b of lista) b.numeros[0] = lista.length;
+            let lineaBacteriaH = new LineaBacteria(2);
+            for (let b of lista){
+              b.numeros[0] = lista.length;
+              b.lineaBacteriaH = lineaBacteriaH;
+              lineaBacteriaH.addBacteria(b);
+            } 
             lista.length = 0;
           }
-
+          //===========================================
           continue;
         }
         bCreada = this.insertarBacteria(x, y);

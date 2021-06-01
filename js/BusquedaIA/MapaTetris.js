@@ -78,8 +78,15 @@ class MapaTetris {
           lista.push(bProx);
           bProx = bProx.getVecino(drcNumerica);
         }
+        let numeroV = {valor:lista.length,bacterias:[],criaturas:[]};
+        let lineaBacteriaV = new LineaBacteria(4);
         for (let b of lista) {
           b.numeros[posNumero] = lista.length;
+          numeroV.bacterias.push(b);
+          b.numeroV = numeroV;    
+          //========================================
+          b.lineaBacteriaV = lineaBacteriaV;  
+          lineaBacteriaV.addBacteria(b);
         }
         lista.length = 0;
       }

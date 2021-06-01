@@ -1,4 +1,5 @@
-var canvas;
+let canvas;
+var canvas2;
 var FPS = 60;
 var contadorFPS = 0;
 var FPSactuales = 40;
@@ -8,7 +9,8 @@ var DATOS_TILED;
 var GESTOR_MOVIL;
 let CANVAS_ANCHO = 450;
 let CANVAS_ALTO = 250;
-
+let ctx = null;
+var ctx2 = null;
 window.addEventListener("resize", rotacionMovil, false);
 
 function tocoCanvas(){
@@ -48,6 +50,19 @@ function configurarCanvas() {
   canvas.style.height = `${altoCanvas}px`;
   ctx.fillStyle = "black";
   ctx.fillRect(0,0, canvas.width,canvas.height);
+  //=======================
+  //=============================
+  canvas2 = document.createElement("canvas");
+
+  ctx2 = canvas2.getContext("2d");
+  anchoCanvas = 900;
+  altoCanvas = 620;
+  canvas2.width = anchoCanvas*window.devicePixelRatio;
+  canvas2.height = altoCanvas*window.devicePixelRatio;
+  canvas2.style.width = `${anchoCanvas}px`;
+  canvas2.style.height = `${altoCanvas}px`;
+  // ctx2.fillStyle = "black";
+  // ctx2.fillRect(0,0, canvas.width,canvas.height);
 }
 
 function configurarJuego() {

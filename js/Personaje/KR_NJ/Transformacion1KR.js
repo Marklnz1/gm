@@ -2,7 +2,8 @@ class Transformacion1KR extends TransPersonaje {
   constructor(kr, tiempoDescanso, condiciones) {
     super(1, tiempoDescanso, kr);
 
-	this.addEstado(new EstadoAcelerar(kr));
+    this.addEstado(new EstadoAcelerar(kr));
+
     let estadoQuieto = new EstadoJugador(
       "quieto",
       "basico",
@@ -20,10 +21,15 @@ class Transformacion1KR extends TransPersonaje {
     );
     estadoMoviendose.addAnimador(getAnimacion("KR_transformacion1_moviendose"));
     estadoMoviendose.setVelocidad(3);
+    // estadoMoviendose.setVelocidad();
     this.addEstado(estadoMoviendose);
 
-	this.addEstado(new EstadoEscape(kr, condiciones.huir));
-	this.addEstado(new EstadoEmbestida(kr));
+    this.addEstado(new EstadoEscape(kr, condiciones.huir));
+    this.addEstado(new EstadoEmbestida(kr));
+    //HACE FALTA ALGO PARA PODER CONFIGURAR UN TIEMPO MINIMO QUE TIENE QUE DURAR UN ESTADO,
+    //UNA VEZ IMPLEMENTADO, SE PUEDE MODIFICAR EL ESTADO ACELERAR Y EL ESTADO NORMAL, AUNQUE AHORA
+    //QUE LO PIENSO, IGUAL NO ARREGLA NADA :v, QUE SEA MEJOR QUE SE CONFIGURE UN BLOQUEO CON TIEMPO,
+    //MINIMO SIEMPRE Y CUANDO SE MUEVA, SI NO SE MUEVE TODO SE CANCELA
   }
 }
 
@@ -58,18 +64,18 @@ class EstadoEmbestida extends EstadoJugador {
 
   constructor(kr) {
     super("embestida", "ataque", kr, null, 120);
-   
-    this.areaAtaque = new RectanguloHelice(kr, 32*2, 12* 32);
-    this.cdActivacion = () =>{
-		return this.areaAtaque.intersecta(kr.objetivo.getColision())
-	}
-	
-	this.addAnimador(getAnimacion("KR_T3"));
-	this.setVelocidad(10);
+
+    this.areaAtaque = new RectanguloHelice(kr, 32 * 2, 12 * 32);
+    this.cdActivacion = () => {
+      return this.areaAtaque.intersecta(kr.objetivo.getColision());
+    };
+
+    this.addAnimador(getAnimacion("KR_T3"));
+    this.setVelocidad(10);
   }
 
   accionInicial() {
-	super.accionInicial();
+    super.accionInicial();
     this.bloquear();
     this.criatura.mb.recorrerCaminoBacteria(
       MAPA.mapaBacteria.crearCaminoBacteria(
@@ -79,30 +85,43 @@ class EstadoEmbestida extends EstadoJugador {
       )
     );
   }
-  actualizar(){
-	  if(!this.criatura.mb.solicitudRecorrer){
-		  this.desbloquear();
-	  }
+  actualizar() {
+    if (!this.criatura.mb.solicitudRecorrer) {
+      this.desbloquear();
+      this.tmpDescanso.reiniciar();
+    }
   }
   dibujar(posX, posY, graficos) {
-	  super.dibujar(posX,posY,graficos);
-		this.areaAtaque.dibujar(graficos);
-	}
+    super.dibujar(posX, posY, graficos);
+    this.areaAtaque.dibujar(graficos);
+  }
 }
 
-class EstadoAcelerar extends EstadoJugador{
-	constructor(kr){
-		super("acelerar","basico",kr,null,0);
-		this.cdActivacion = ()=> this.semiDistanciaObjetivo()>2**2;
-		this.setVelocidad(5);
-		this.addAnimador(getAnimacion("KR_T2_MOV"))
-	}
-	semiDistanciaObjetivo(){
-		let bObjetivo = this.criatura.objetivo.getBacteria();
-		let bCriatura = this.criatura.getBacteria();
-		let dx = bObjetivo.getXtile()-bCriatura.getXtile();
-		let dy = bObjetivo.getYtile()-bCriatura.getYtile();
+class EstadoAcelerar extends EstadoJugador {
+  temporizador = new Temporizador(50);
+  constructor(kr) {
+    super("acelerar", "basico", kr, null, 35);
+    this.cdActivacion = () => this.semiDistanciaObjetivo() > 2 ** 2;
+    this.setVelocidad(5);
+    this.addAnimador(getAnimacion("KR_T2_MOV"));
+  }
+  accionInicial() {
+    super.accionInicial();
+    this.bloquear();
+    this.temporizador.reiniciar();
+  }
+  actualizar() {
+    this.temporizador.actualizar();
+    if (this.temporizador.tiempoCumplido()||this.criatura.getBacteria()===this.criatura.objetivo.getBacteria()) {
+      this.desbloquear();
+    }
+  }
+  semiDistanciaObjetivo() {
+    let bObjetivo = this.criatura.objetivo.getBacteria();
+    let bCriatura = this.criatura.getBacteria();
+    let dx = bObjetivo.getXtile() - bCriatura.getXtile();
+    let dy = bObjetivo.getYtile() - bCriatura.getYtile();
 
-		return dx*dx+dy*dy;
-	}
+    return dx * dx + dy * dy;
+  }
 }

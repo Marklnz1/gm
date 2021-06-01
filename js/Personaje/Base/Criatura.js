@@ -24,12 +24,14 @@ class Criatura extends Ente {
   direccionImagen;
   dirImagenBloqueadas = [];
   animacionBidirencional = false;
+  static contadorIdGlobal = 0;
   constructor(anchoCuadroColision, altoCuadroColision, id) {
     super(anchoCuadroColision, altoCuadroColision, id);
     this.temporizador.setTiempoMaximo(180);
 
     this.vidaMax = this.vidaActual = 999;
     this.direccionImagen = this.ultimaDireccionImagen = this.direccion;
+    this.idGlobal = Criatura.contadorIdGlobal++;
     
   }
   bloquearDirImagen(direcciones){
@@ -180,7 +182,7 @@ class Criatura extends Ente {
   }
   calcularTransformacion() {
     let transEnlazeActiva = this.transActual.getTransEnlazeActivo();
-    if (transEnlazeActiva != null) {
+    if(transEnlazeActiva != null) {
       this.transActual.getTemporizadorDescanso().reiniciar();
       let transNueva = transEnlazeActiva.getTrans();
       transNueva.accionInicial();

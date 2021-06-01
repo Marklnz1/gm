@@ -1,3 +1,4 @@
+var objetoMostrar = [];
 class CamaraMapa {
   mapa;
   cvPreImagenFinal;
@@ -10,6 +11,8 @@ class CamaraMapa {
   puntosEsquina;
   radio = 200;
   colorSombra = "#000b"
+  listaLaser = [];
+  temporizador = new Temporizador(7);
   constructor(mapa, registroMovCentral) {
     this.mapa = mapa;
     this.cvPreImagenFinal = document.createElement("canvas");
@@ -25,8 +28,18 @@ class CamaraMapa {
     //=============================================
     this.rectangulo = new Rectangulo(0,0,10,10);
 
+
   }
   actualizar() {
+    this.temporizador.actualizar();
+    if(teclaPresionada("x")&&this.temporizador.tiempoCumplido()){
+      this.listaLaser.push(new Laser(JUGADOR.getX(),JUGADOR.getY()));
+      this.temporizador.setTiempoMaximo(random(4,10));
+      this.temporizador.reiniciar();
+    }
+   for(let l of this.listaLaser){
+     l.actualizar();
+   }
     this.actualizarRegistroMovCamara();
     if (!isMobile()) this.generadorSombra.actualizar();
     this.ordenarObjetosDibujo();
@@ -75,11 +88,50 @@ class CamaraMapa {
     graficos.fill();
   }
   dibujar(graficos) {
+    // addBullet(200,200,BULLET_TYPES.red);
+    // updateDrawAllBullets(graficos);
     this.dibujarPreImagenFinal();
     graficos.drawImage(this.cvPreImagenFinal, 0, 0);
     this.dibujarCuadroSombra(graficos);
     graficos.save();
     graficos.translate(this.getXdes(), this.getYdes());
+    // this.mapa.cruzBacteria.dibujar(graficos);
+
+
+    // let totalCriaturas = 0;
+    // objetoMostrar[1] = JUGADOR.getBacteria().numeroV.criaturas.length; 
+    // totalCriaturas+=objetoMostrar[1];
+    // for(let b of JUGADOR.getBacteria().numeroV.bacterias){
+    //   // b.dibujar(graficos);
+    // }
+
+    // let vecinoDerecha = JUGADOR.getBacteria().getVecino(2);
+    // if(vecinoDerecha!=null){
+    //   objetoMostrar[2] = vecinoDerecha.numeroV.criaturas.length; 
+    //   totalCriaturas+=objetoMostrar[2];
+
+    //   for(let b of vecinoDerecha.numeroV.bacterias){
+    //     // b.dibujar(graficos);
+    //   }
+    // }
+
+    // let vecinoIzquierda = JUGADOR.getBacteria().getVecino(6);
+    // if(vecinoIzquierda!=null){
+    //   objetoMostrar[0] = vecinoIzquierda.numeroV.criaturas.length; 
+    //   totalCriaturas+=objetoMostrar[0];
+
+    //   for(let b of vecinoIzquierda.numeroV.bacterias){
+    //     // b.dibujar(graficos);
+    //   }
+    // }
+    // JUGADOR.getBacteria().lineaBacteriaV.dibujar(graficos);
+    // JUGADOR.getBacteria().lineaBacteriaH.dibujar(graficos);
+    // MAPA.gLineaBacteriaV.dibujar(graficos);
+    // MAPA.gLineaBacteriaH.dibujar(graficos);
+
+    // console.log(JUGADOR.getBacteria().numeroV.bacterias.length);
+    // this.mapa.mapaBacteria.dibujarColoniaBacteria(graficos);
+    //  this.mapa.mapaBacteria.mapaTetris.dibujar(graficos);
     if (isMobile()) {
       this.recortarGraficosCirculo(graficos);
       
@@ -143,6 +195,11 @@ class CamaraMapa {
     graficos.drawImage(this.cvPreImagenFinal, 0, 0);
     //this.rellenarGraficosCirculo(graficos);
     graficos.restore();
+   
+    
+  }
+  repartirCriaturas(numCriaturas){
+    numCriaturas/3;
   }
   dibujarPreImagenFinal() {
     this.preGraficos.drawImage(
@@ -164,6 +221,9 @@ class CamaraMapa {
     }
     for (let c of this.mapa.getColisionesTile()) {
       c.dibujarContorno(this.preGraficos, "red");
+    }
+    for(let l of this.listaLaser){
+      l.dibujar(this.preGraficos);
     }
     this.preGraficos.resetTransform();
   }
@@ -218,6 +278,54 @@ class CamaraMapa {
       let auxiliar = this.objetosDibujo[i];
       this.objetosDibujo[i] = this.objetosDibujo[posMenor];
       this.objetosDibujo[posMenor] = auxiliar;
+    }
+  }
+}
+
+
+class Laser{
+  x;
+  y;
+  imagen;
+  angulo = 0;
+  point;
+  constructor(x,y){
+    this.x = x;
+    this.y = y;
+    cargarImagen("recursos/laserRojo.png").then((imagen)=>{
+      this.imagen = imagen;
+    });
+    this.point = Direccion.convertIntToPoint(JUGADOR.getDireccion());
+  }
+
+  actualizar(){
+    if(this.fueraDeMapa()) return;
+  
+    let dx = this.point.getX();
+    let dy = -this.point.getY();
+  
+    let modulo = Math.sqrt(dx*dx+dy*dy);
+    if(modulo == 0) return;
+    let mx = dx*27/modulo;
+    let my = dy*27/modulo;
+    this.angulo = calcularAnguloPantallaC(0,0,mx,my);
+    this.x+=mx;
+    this.y+=my;
+  }
+  fueraDeMapa(){
+    return this.x>MAPA.getAncho()||this.y>MAPA.getAlto();
+  }
+  dibujar(graficos){
+    if(this.fueraDeMapa()) return;
+    if(this.imagen!=null){
+      let ajusteX = this.imagen.width/2;
+      let ajusteY = this.imagen.height/2;
+      let posX = parseInt(this.x - ajusteX);
+      let posY = parseInt(this.y - ajusteY);
+
+      dibujarImagenCentrada(this.imagen,posX+ajusteX,posY+ajusteY,this.angulo,graficos);
+      // rotateAndPaintImage(graficos,this.imagen,this.angulo,posX,posY,ajusteX*2,ajusteY*2);
+      // graficos.drawImage(this.imagen,posX,posY);
     }
   }
 }

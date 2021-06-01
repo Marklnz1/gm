@@ -2,6 +2,7 @@ class Player extends Criatura{
   vectMov = { x: 0, y: 0 };
   capaParasito;
   uDiagonal = 1/Math.sqrt(2);
+  numerosV =[];
   constructor( x, y) {
     super(23,16);
     this.setPosMapa(x,y);
@@ -55,6 +56,25 @@ class Player extends Criatura{
     }
     this.actualizarDireccionVect(this.vectMov.x,this.vectMov.y);
     this.moverse();  
+    this.actualizarNumerosV();
+  }
+  actualizarNumerosV(){
+    let vecino = this.getBacteria().getVecino(6);
+    if(vecino!=null){
+      this.numerosV[0] = vecino.numeroV;
+    }else{
+      this.numerosV[0] = null;
+    }
+    this.numerosV[1] = this.getBacteria().numeroV;
+
+    vecino = this.getBacteria().getVecino(2);
+    if(vecino!=null){
+      this.numerosV[2] = vecino.numeroV;
+    }else{
+      this.numerosV[2] = null;
+    }
+
+    
   }
   moverse() {
     let desX = this.vectMov.x * this.velocidadActual;

@@ -23,6 +23,7 @@ class GestorCriaturas {
 	}
 	
 	actualizar() {
+		console.log("xddsadasd");
 		//generarEnemigo();
 		//======================================
 		for(let criatura of this.criaturas) {

@@ -18,7 +18,7 @@ class Transformacion1PY extends TransPersonaje {
       ()=>teclasMovActiva()||estaTocandoPantalla
     );
     estadoMoviendose.addAnimador(getAnimacion("JG_MOV"));
-    estadoMoviendose.setVelocidad(5);
+    estadoMoviendose.setVelocidad(10);
     this.addEstado(estadoMoviendose);
   }
 }

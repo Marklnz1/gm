@@ -32,7 +32,7 @@ class CamaraMapa {
   }
   actualizar() {
     this.temporizador.actualizar();
-    if(teclaPresionada("x")&&this.temporizador.tiempoCumplido()){
+    if((JUGADOR.vectMov.x!=0||JUGADOR.vectMov.y!=0)&&this.temporizador.tiempoCumplido()){
       this.listaLaser.push(new Laser(JUGADOR.getX(),JUGADOR.getY()));
       this.temporizador.setTiempoMaximo(random(4,10));
       this.temporizador.reiniciar();
